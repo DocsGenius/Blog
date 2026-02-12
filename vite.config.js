@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     react()
   ],
-  base: '/Blog/', // important for GitHub Pages project site
+  base: '/', // important for custom domain serving from root
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
