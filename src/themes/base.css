@@ -1,0 +1,150 @@
+/* Base Theme Structure - All themes must follow this variable structure */
+
+/* Main Colors (3) */
+:root {
+  --color-primary: #000000;
+  --color-secondary: #666666;
+  --color-accent: #0066cc;
+  
+  /* Option Colors (5) */
+  --color-surface: #ffffff;
+  --color-background: #f5f5f5;
+  --color-text: #333333;
+  --color-border: #e0e0e0;
+  --color-highlight: #ffff00;
+  
+  /* Semantic mappings using the standardized colors */
+  --color-primary-bg: var(--color-primary);
+  --color-secondary-bg: var(--color-secondary);
+  --color-accent-bg: var(--color-accent);
+  
+  --color-primary-text: var(--color-text);
+  --color-secondary-text: var(--color-secondary);
+  --color-accent-text: var(--color-surface);
+  
+  --color-surface-bg: var(--color-surface);
+  --color-background-bg: var(--color-background);
+  
+  --color-border-light: var(--color-border);
+  --color-border-dark: var(--color-secondary);
+  
+  --color-highlight-bg: var(--color-highlight);
+  --color-highlight-text: var(--color-text);
+  
+  /* State colors derived from main palette */
+  --color-success: var(--color-accent);
+  --color-warning: var(--color-highlight);
+  --color-error: #ff4444;
+  --color-info: var(--color-primary);
+  
+  /* Interactive states */
+  --color-hover: var(--color-secondary);
+  --color-active: var(--color-accent);
+  --color-focus: var(--color-accent);
+  --color-disabled: var(--color-border);
+  
+  /* Shadow and overlay colors */
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+}
+
+/* Base theme styles that work with any color combination */
+body {
+  background-color: var(--color-background-bg);
+  color: var(--color-primary-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.surface {
+  background-color: var(--color-surface-bg);
+  border: 1px solid var(--color-border-light);
+}
+
+.primary {
+  background-color: var(--color-primary-bg);
+  color: var(--color-accent-text);
+}
+
+.secondary {
+  background-color: var(--color-secondary-bg);
+  color: var(--color-surface-bg);
+}
+
+.accent {
+  background-color: var(--color-accent-bg);
+  color: var(--color-accent-text);
+}
+
+.highlight {
+  background-color: var(--color-highlight-bg);
+  color: var(--color-highlight-text);
+}
+
+/* Interactive elements */
+button {
+  background-color: var(--color-primary-bg);
+  color: var(--color-accent-text);
+  border: 1px solid var(--color-border-light);
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--color-hover);
+  border-color: var(--color-border-dark);
+}
+
+button:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+button:active {
+  background-color: var(--color-active);
+}
+
+button:disabled {
+  background-color: var(--color-disabled);
+  color: var(--color-secondary);
+  cursor: not-allowed;
+}
+
+/* Links */
+a {
+  color: var(--color-accent-bg);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-hover);
+  text-decoration: underline;
+}
+
+/* Form elements */
+input, textarea, select {
+  background-color: var(--color-surface-bg);
+  color: var(--color-primary-text);
+  border: 1px solid var(--color-border-light);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-color: var(--color-focus);
+}
+
+/* Utility classes */
+.text-primary { color: var(--color-primary-text); }
+.text-secondary { color: var(--color-secondary-text); }
+.text-accent { color: var(--color-accent-bg); }
+.text-highlight { color: var(--color-highlight-bg); }
+
+.bg-primary { background-color: var(--color-primary-bg); }
+.bg-secondary { background-color: var(--color-secondary-bg); }
+.bg-accent { background-color: var(--color-accent-bg); }
+.bg-surface { background-color: var(--color-surface-bg); }
+.bg-background { background-color: var(--color-background-bg); }
+.bg-highlight { background-color: var(--color-highlight-bg); }
+
+.border-primary { border-color: var(--color-border-light); }
+.border-secondary { border-color: var(--color-border-dark); }
+.border-accent { border-color: var(--color-accent-bg); }
