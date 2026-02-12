@@ -1,4 +1,4 @@
-[
+const themesData = [
   {
     "name": "light",
     "displayName": "Light",
@@ -181,7 +181,6 @@
       "highlight": "#00ffea"
     }
   },
-
   {
     "name": "lavender",
     "displayName": "Lavender",
@@ -307,20 +306,7 @@
       "border": "#cbd5e1",
       "highlight": "#64748b"
     }
-  },
-  {
-    "name": "custom",
-    "displayName": "Custom",
-    "colors": {
-      "primary": "#808080",
-      "secondary": "#a0a0a0",
-      "accent": "#c0c0c0",
-      "surface": "#f5f5f5",
-      "background": "#fafafa",
-      "text": "#333333",
-      "border": "#d0d0d0",
-      "highlight": "#e0e0e0"
-    },
-    "isCustom": true
   }
 ]
+
+export default themesData

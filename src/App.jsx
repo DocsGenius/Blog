@@ -1,27 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback, memo } from 'react'
 import './App.css'
-import './themes/base.css'
-import themesData from './themes.json'
+import './themes/theme-variables.css'
+import { useCustomThemes } from './hooks/useCustomThemes'
+import { useLazyThemes } from './hooks/useLazyThemes'
+import { useColorConversion, isRedDominant } from './utils/colorUtils'
 
-function ColorSlider({ label, value, onChange }) {
-  const hexToRgb = (hex) => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : { r: 0, g: 0, b: 0 }
-  }
+const ColorSlider = memo(({ label, value, onChange }) => {
+  const rgb = useColorConversion(value)
 
-  const rgb = hexToRgb(value)
-
-  const handleRgbChange = (channel, val) => {
+  const handleRgbChange = useCallback((channel, val) => {
     const newRgb = { ...rgb, [channel]: val }
     const hex = '#' + [newRgb.r, newRgb.g, newRgb.b]
       .map(x => x.toString(16).padStart(2, '0'))
       .join('')
     onChange(hex)
-  }
+  }, [rgb, onChange])
 
   return (
     <div className="color-slider">
@@ -64,9 +57,9 @@ function ColorSlider({ label, value, onChange }) {
       </div>
     </div>
   )
-}
+})
 
-function CustomThemePopup({ isOpen, onClose, onSave }) {
+const CustomThemePopup = memo(({ isOpen, onClose, onSave }) => {
   const [colors, setColors] = useState({
     primary: '#808080',
     secondary: '#a0a0a0',
@@ -78,17 +71,17 @@ function CustomThemePopup({ isOpen, onClose, onSave }) {
     highlight: '#e0e0e0'
   })
 
-  const handleColorChange = (key, value) => {
+  const handleColorChange = useCallback((key, value) => {
     setColors(prev => ({ ...prev, [key]: value }))
-  }
+  }, [])
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     const themeName = prompt('Enter a name for your custom theme:')
     if (themeName) {
       onSave({ name: themeName, displayName: themeName, colors })
       onClose()
     }
-  }
+  }, [colors, onSave, onClose])
 
   if (!isOpen) return null
 
@@ -116,88 +109,38 @@ function CustomThemePopup({ isOpen, onClose, onSave }) {
       </div>
     </div>
   )
-}
+})
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState('light')
   const [showCustomPopup, setShowCustomPopup] = useState(false)
-  const [customThemes, setCustomThemes] = useState([])
+  const { customThemes, isLoading: customLoading, saveCustomTheme, deleteCustomTheme } = useCustomThemes()
+  const { themes: themesData, isLoading: themesLoading } = useLazyThemes()
 
-  const isRedDominant = (hexColor) => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexColor)
-    if (!result) return false
-    
-    const r = parseInt(result[1], 16)
-    const g = parseInt(result[2], 16)
-    const b = parseInt(result[3], 16)
-    
-    return r > g * 1.5 && r > b * 1.5
-  }
-
-  const switchTheme = (themeName) => {
-    // Handle custom theme button click
+  const switchTheme = useCallback((themeName) => {
     if (themeName === 'custom') {
       setShowCustomPopup(true)
       return
     }
     
-    const theme = themesData.find(t => t.name === themeName) || 
+    const theme = themesData?.find(t => t.name === themeName) || 
                  customThemes.find(t => t.name === themeName)
     
     if (!theme) return
     
-    // Apply theme colors as CSS custom properties
     const root = document.documentElement
     Object.entries(theme.colors).forEach(([key, value]) => {
       root.style.setProperty(`--color-${key}`, value)
     })
     
     setCurrentTheme(themeName)
-  }
-
-  const deleteCustomTheme = (themeName) => {
-    try {
-      const existingThemes = JSON.parse(localStorage.getItem('customThemes') || '[]')
-      const updatedThemes = existingThemes.filter(t => t.name !== themeName)
-      
-      localStorage.setItem('customThemes', JSON.stringify(updatedThemes))
-      setCustomThemes(updatedThemes)
-      
-      // If deleted theme was current, switch to light
-      if (currentTheme === themeName) {
-        switchTheme('light')
-      }
-    } catch (error) {
-      console.error('Error deleting custom theme:', error)
-    }
-  }
-
-  const saveCustomTheme = (theme) => {
-    try {
-      // Load existing custom themes from localStorage
-      const existingThemes = JSON.parse(localStorage.getItem('customThemes') || '[]')
-      const updatedThemes = [...existingThemes, theme]
-      
-      // Save to localStorage
-      localStorage.setItem('customThemes', JSON.stringify(updatedThemes))
-      setCustomThemes(updatedThemes)
-      console.log('Custom theme saved:', theme)
-    } catch (error) {
-      console.error('Error saving custom theme:', error)
-    }
-  }
+  }, [themesData, customThemes])
 
   useEffect(() => {
-    // Load custom themes from localStorage on mount
-    try {
-      const savedThemes = JSON.parse(localStorage.getItem('customThemes') || '[]')
-      setCustomThemes(savedThemes)
-    } catch (error) {
-      console.error('Error loading custom themes:', error)
+    if (!themesLoading && themesData?.length > 0) {
+      switchTheme('light')
     }
-    
-    switchTheme('light')
-  }, [])
+  }, [switchTheme, themesLoading, themesData])
 
   return (
     <div className="app">
@@ -220,16 +163,20 @@ function App() {
 
       <section className="theme-selector">
         <div className="theme-list">
-          {themesData.map((theme) => (
-            <button
-              key={theme.name}
-              className={`theme-item ${currentTheme === theme.name ? 'active' : ''}`}
-              onClick={() => switchTheme(theme.name)}
-            >
-              <span className="theme-color" style={{ backgroundColor: theme.colors.primary }}></span>
-              <span className="theme-name">{theme.displayName}</span>
-            </button>
-          ))}
+          {themesLoading ? (
+            <div className="loading-themes">Loading themes...</div>
+          ) : (
+            themesData?.map((theme) => (
+              <button
+                key={theme.name}
+                className={`theme-item ${currentTheme === theme.name ? 'active' : ''}`}
+                onClick={() => switchTheme(theme.name)}
+              >
+                <span className="theme-color" style={{ backgroundColor: theme.colors.primary }}></span>
+                <span className="theme-name">{theme.displayName}</span>
+              </button>
+            ))
+          )}
           {customThemes.map((theme) => (
             <button
               key={theme.name}

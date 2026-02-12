@@ -1,4 +1,12 @@
-/* App Layout Styles - Uses theme variables from base.css */
+/* Loading State */
+.loading-themes {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-secondary-text);
+  font-style: italic;
+}
+
+/* App Layout Styles - Uses theme variables from theme-variables.css */
 
 .app {
   min-height: 100vh;

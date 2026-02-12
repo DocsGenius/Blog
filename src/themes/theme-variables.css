@@ -1,0 +1,119 @@
+/* Theme Variables & Base Styles
+ * 
+ * This file contains:
+ * - CSS custom properties for theme colors
+ * - Semantic color mappings
+ * - Base component styles that work with any theme
+ * - Utility classes for consistent theming
+ * 
+ * All components should use these CSS variables for consistent theming
+ */
+
+/* Optimized CSS Variables - Reduced redundancy */
+:root {
+  /* Core Color Palette */
+  --color-primary: #000000;
+  --color-secondary: #666666;
+  --color-accent: #0066cc;
+  --color-surface: #ffffff;
+  --color-background: #f5f5f5;
+  --color-text: #333333;
+  --color-border: #e0e0e0;
+  --color-highlight: #ffff00;
+  
+  /* Semantic Mappings */
+  --color-primary-text: var(--color-text);
+  --color-secondary-text: var(--color-secondary);
+  --color-accent-text: var(--color-surface);
+  --color-hover: var(--color-secondary);
+  --color-active: var(--color-accent);
+  --color-focus: var(--color-accent);
+  --color-disabled: var(--color-border);
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+}
+
+/* Base Theme Styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-primary-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Utility Classes */
+.surface { background-color: var(--color-surface); border: 1px solid var(--color-border); }
+.primary { background-color: var(--color-primary); color: var(--color-accent-text); }
+.secondary { background-color: var(--color-secondary); color: var(--color-surface); }
+.accent { background-color: var(--color-accent); color: var(--color-accent-text); }
+.highlight { background-color: var(--color-highlight); color: var(--color-text); }
+
+.text-primary { color: var(--color-primary-text); }
+.text-secondary { color: var(--color-secondary-text); }
+.text-accent { color: var(--color-accent); }
+
+.bg-primary { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-surface { background-color: var(--color-surface); }
+.bg-background { background-color: var(--color-background); }
+
+/* Interactive Elements */
+button, .btn {
+  background-color: var(--color-primary);
+  color: var(--color-accent-text);
+  border: 1px solid var(--color-border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .btn:hover {
+  background-color: var(--color-hover);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+button:focus, .btn:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+button:active, .btn:active {
+  background-color: var(--color-active);
+}
+
+button:disabled, .btn:disabled {
+  background-color: var(--color-disabled);
+  color: var(--color-secondary);
+  cursor: not-allowed;
+}
+
+/* Links */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-hover);
+  text-decoration: underline;
+}
+
+/* Form Elements */
+input, textarea, select {
+  background-color: var(--color-surface);
+  color: var(--color-primary-text);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-color: var(--color-focus);
+}
