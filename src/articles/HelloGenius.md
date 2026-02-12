@@ -2,7 +2,7 @@
 title: Hello Genius!
 subtitle: This article goes over everything Docs Genius!
 authorId: roman-rand
-date: February 12th, 2026
+date: February 11th, 2026
 category: Newsletter
 readingTime: 1 min read
 coverImage: /branding/DocsGeniusIcon.png

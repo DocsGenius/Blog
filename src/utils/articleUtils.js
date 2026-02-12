@@ -5,6 +5,14 @@ import authorsData from '../data/authorsData.js'
 // Import all markdown files as raw text
 const markdownFiles = import.meta.glob('../articles/*.md', { query: '?raw', import: 'default' })
 
+// Parse date string to timestamp
+function parseDate(dateStr) {
+  // Handle format like "February 12th, 2026"
+  const cleanedDate = dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1')
+  const date = new Date(cleanedDate)
+  return isNaN(date.getTime()) ? 0 : date.getTime()
+}
+
 export async function getAllArticles() {
   const articles = []
   
@@ -15,7 +23,7 @@ export async function getAllArticles() {
   }
   
   // Sort by date (newest first)
-  return articles.sort((a, b) => new Date(b.date) - new Date(a.date))
+  return articles.sort((a, b) => parseDate(b.date) - parseDate(a.date))
 }
 
 export async function getArticleBySlug(slug) {
