@@ -1,7 +1,9 @@
 // Utility functions for loading and parsing markdown articles
 
+import authorsData from '../data/authorsData.js'
+
 // Import all markdown files as raw text
-const markdownFiles = import.meta.glob('../articles/*.md', { as: 'raw' })
+const markdownFiles = import.meta.glob('../articles/*.md', { query: '?raw', import: 'default' })
 
 export async function getAllArticles() {
   const articles = []
@@ -25,6 +27,15 @@ export async function getArticleBySlug(slug) {
   
   const content = await markdownFiles[path]()
   return parseArticle(content, path)
+}
+
+function resolveAuthor(authorId) {
+  const author = authorsData[authorId]
+  if (!author) {
+    console.warn(`Author with ID "${authorId}" not found`)
+    return null
+  }
+  return author
 }
 
 function parseArticle(content, filePath) {
@@ -65,6 +76,17 @@ function parseArticle(content, filePath) {
   
   // Extract slug from file path
   const slug = filePath.split('/').pop().replace('.md', '')
+  
+  // Resolve author if authorId is present
+  let resolvedAuthor = null
+  if (frontmatter.authorId) {
+    resolvedAuthor = resolveAuthor(frontmatter.authorId)
+    if (resolvedAuthor) {
+      frontmatter.author = resolvedAuthor.name
+      frontmatter.authorBio = resolvedAuthor.bio
+      frontmatter.authorAvatar = resolvedAuthor.avatar
+    }
+  }
   
   return {
     id: slug,

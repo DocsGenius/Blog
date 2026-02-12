@@ -1,16 +1,14 @@
-# React + Vite
+# DocsGenius site
+This is the source code for the DocsGenius website. It is a static website built with React and Vite.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Welcome!
 
-Currently, two official plugins are available:
+I'm Roman, and I have within the last three months fallen in love with technical reading. What started with a challenge to read the entire Rust guide in a weekend, has now become a passion for me. I'm here to share my journey with you, and to help others find helpful resources.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## If you want to write, look no further!
 
-## React Compiler
+This website has a contact form that you can use to reach out to me. I'm here to help you on your journey to technical writing. Whether you're looking to learn to write, or you're looking to improve your writing, I'm here to help, granted I still get 70s on Grammarly before I revise my work..
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## If you want to contribute, look no further!
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Seriously, the contact form is for you! I'm building a discord at the moment with people who are interested, and will publicize it at the right moment. But it's never too soon to join!

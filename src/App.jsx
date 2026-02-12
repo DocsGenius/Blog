@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, memo } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import './styles/article.css'
 import './themes/theme-variables.css'
@@ -9,6 +9,7 @@ import { useColorConversion, isRedDominant } from './utils/colorUtils'
 import Home from './components/Home'
 import ArticleList from './components/ArticleList'
 import Article from './components/Article'
+import Contact from './components/Contact'
 
 const ColorSlider = memo(({ label, value, onChange }) => {
   const rgb = useColorConversion(value)
@@ -117,7 +118,9 @@ const CustomThemePopup = memo(({ isOpen, onClose, onSave }) => {
 })
 
 function App() {
-  const [currentTheme, setCurrentTheme] = useState('light')
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    return localStorage.getItem('selectedTheme') || 'light'
+  })
   const [showCustomPopup, setShowCustomPopup] = useState(false)
   const { customThemes, isLoading: customLoading, saveCustomTheme, deleteCustomTheme } = useCustomThemes()
   const { themes: themesData, isLoading: themesLoading } = useLazyThemes()
@@ -139,11 +142,13 @@ function App() {
     })
     
     setCurrentTheme(themeName)
+    localStorage.setItem('selectedTheme', themeName)
   }, [themesData, customThemes])
 
   useEffect(() => {
     if (!themesLoading && themesData?.length > 0) {
-      switchTheme('light')
+      const savedTheme = localStorage.getItem('selectedTheme') || 'light'
+      switchTheme(savedTheme)
     }
   }, [switchTheme, themesLoading, themesData])
 
@@ -156,10 +161,9 @@ function App() {
               <h1 className="text-primary">DocsGenius</h1>
             </div>
             <div className="nav-menu">
-              <a href="/" className="nav-link">Home</a>
-              <a href="/articles" className="nav-link">Articles</a>
-              <a href="#about" className="nav-link">About</a>
-              <a href="#themes" className="nav-link">Themes</a>
+              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/articles" className="nav-link">Articles</Link>
+              <Link to="/contact" className="nav-link">Contact</Link>
             </div>
           </nav>
         </header>
@@ -169,6 +173,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/articles" element={<ArticleList />} />
             <Route path="/article/:slug" element={<Article />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
 
@@ -206,6 +211,16 @@ function App() {
                 <span className="theme-name">{theme.displayName}</span>
               </button>
             ))}
+            <button
+              className="theme-item custom-theme-button"
+              onClick={() => setShowCustomPopup(true)}
+            >
+              <span className="theme-color" style={{ 
+                background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4)',
+                border: '2px dashed #ccc'
+              }}></span>
+              <span className="theme-name">+ Custom</span>
+            </button>
           </div>
         </section>
 
