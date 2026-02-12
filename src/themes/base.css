@@ -19,7 +19,7 @@
   --color-accent-bg: var(--color-accent);
   
   --color-primary-text: var(--color-text);
-  --color-secondary-text: var(--color-secondary);
+  --color-text-secondary: var(--color-secondary);
   --color-accent-text: var(--color-surface);
   
   --color-surface-bg: var(--color-surface);
@@ -134,7 +134,7 @@ input:focus, textarea:focus, select:focus {
 
 /* Utility classes */
 .text-primary { color: var(--color-primary-text); }
-.text-secondary { color: var(--color-secondary-text); }
+.text-secondary { color: var(--color-text-secondary); }
 .text-accent { color: var(--color-accent-bg); }
 .text-highlight { color: var(--color-highlight-bg); }
 

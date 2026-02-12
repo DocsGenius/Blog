@@ -7,7 +7,11 @@ const EMAILJS_PUBLIC_KEY = 'niK5nB5EF9ninUqbl'
 const EMAILJS_SERVICE_ID = 'service_3jiy633' 
 const EMAILJS_TEMPLATE_ID = 'template_580knuz'
 
-emailjs.init(EMAILJS_PUBLIC_KEY)
+try {
+  emailjs.init(EMAILJS_PUBLIC_KEY)
+} catch (err) {
+  console.error('EmailJS initialization failed:', err)
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({

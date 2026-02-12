@@ -43,7 +43,7 @@ const chartData = {
 export const markdownComponents = {
   // Transform ```chart bar``` code blocks
   code({ node, inline, className, children, ...props }) {
-    const match = /language-chart-(\w+)/.exec(className || '');
+    const match = /chart-(\w+)/.exec(className || '');
     
     if (!inline && match) {
       const chartType = match[1];
@@ -98,21 +98,4 @@ export const markdownComponents = {
       </code>
     );
   },
-  
-  // You can also add a custom component for inline charts
-  div({ node, ...props }) {
-    if (props['data-chart']) {
-      const chartConfig = JSON.parse(props['data-chart'] || '{}');
-      
-      if (chartConfig.type === 'bar') {
-        return <ThemeAwareBarChart {...chartConfig} />;
-      }
-      
-      if (chartConfig.type === 'pie') {
-        return <ThemeAwarePieChart {...chartConfig} />;
-      }
-    }
-    
-    return <div {...props} />;
-  }
 };

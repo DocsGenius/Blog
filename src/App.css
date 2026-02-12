@@ -2,7 +2,7 @@
 .loading-themes {
   padding: 2rem;
   text-align: center;
-  color: var(--color-secondary-text);
+  color: var(--color-text-secondary);
   font-style: italic;
 }
 
@@ -367,6 +367,10 @@ section p {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.surface {
+  background-color: var(--color-surface);
 }
 
 /* Footer */

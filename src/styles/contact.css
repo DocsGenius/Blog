@@ -19,7 +19,7 @@
 
 .contact-header p {
   font-size: 1.125rem;
-  color: var(--color-secondary);
+  color: var(--color-text-secondary);
   max-width: 600px;
   margin: 0 auto;
 }
@@ -52,7 +52,7 @@
 }
 
 .contact-method p {
-  color: var(--color-secondary);
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 
@@ -107,7 +107,7 @@
 
 .btn-primary {
   background-color: var(--color-primary);
-  color: var(--color-accent-text);
+  color: white;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;

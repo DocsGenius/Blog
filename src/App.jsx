@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, memo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import './styles/article.css'
@@ -12,7 +12,7 @@ import Article from './components/Article'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
-const ColorSlider = memo(({ label, value, onChange }) => {
+const ColorSlider = ({ label, value, onChange }) => {
   const rgb = useColorConversion(value)
 
   const handleRgbChange = useCallback((channel, val) => {
@@ -64,9 +64,9 @@ const ColorSlider = memo(({ label, value, onChange }) => {
       </div>
     </div>
   )
-})
+}
 
-const CustomThemePopup = memo(({ isOpen, onClose, onSave }) => {
+const CustomThemePopup = ({ isOpen, onClose, onSave }) => {
   const [colors, setColors] = useState({
     primary: '#808080',
     secondary: '#a0a0a0',
@@ -116,7 +116,7 @@ const CustomThemePopup = memo(({ isOpen, onClose, onSave }) => {
       </div>
     </div>
   )
-})
+}
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState(() => {
@@ -208,7 +208,9 @@ function App() {
                   style={{ backgroundColor: theme.colors.primary }}
                   onClick={(e) => {
                     e.stopPropagation()
-                    deleteCustomTheme(theme.name)
+                    if (confirm(`Delete "${theme.displayName}" theme?`)) {
+                      deleteCustomTheme(theme.name)
+                    }
                   }}
                   title="Delete theme"
                 ></span>

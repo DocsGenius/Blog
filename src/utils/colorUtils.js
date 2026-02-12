@@ -9,12 +9,6 @@ export const hexToRgb = (hex) => {
   } : { r: 0, g: 0, b: 0 }
 }
 
-export const rgbToHex = (r, g, b) => {
-  return '#' + [r, g, b]
-    .map(x => x.toString(16).padStart(2, '0'))
-    .join('')
-}
-
 export const isRedDominant = (hexColor) => {
   const rgb = hexToRgb(hexColor)
   return rgb.r > rgb.g * 1.5 && rgb.r > rgb.b * 1.5

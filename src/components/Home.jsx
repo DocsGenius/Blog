@@ -11,8 +11,8 @@ export default function Home() {
   useEffect(() => {
     async function loadLatestArticles() {
       try {
-        const articles = await getAllArticles()
-        setLatestArticles(articles.slice(0, 3)) // Show latest 3 articles
+        const articles = await getAllArticles(3) // Only load first 3 articles
+        setLatestArticles(articles)
       } catch (error) {
         console.error('Error loading latest articles:', error)
       } finally {

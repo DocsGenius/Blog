@@ -8,12 +8,15 @@ const markdownFiles = import.meta.glob('../articles/*.md', { query: '?raw', impo
 // Parse date string to timestamp
 function parseDate(dateStr) {
   // Handle format like "February 12th, 2026"
-  const cleanedDate = dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1')
+  // Remove ordinal suffix AND handle comma
+  const cleanedDate = dateStr
+    .replace(/(\d+)(st|nd|rd|th)/, '$1')  // Remove st, nd, rd, th
+    .replace(',', '');  // Remove comma
   const date = new Date(cleanedDate)
   return isNaN(date.getTime()) ? 0 : date.getTime()
 }
 
-export async function getAllArticles() {
+export async function getAllArticles(limit = null, offset = 0) {
   const articles = []
   
   for (const path in markdownFiles) {
@@ -23,7 +26,14 @@ export async function getAllArticles() {
   }
   
   // Sort by date (newest first)
-  return articles.sort((a, b) => parseDate(b.date) - parseDate(a.date))
+  const sortedArticles = articles.sort((a, b) => parseDate(b.date) - parseDate(a.date))
+  
+  // Apply limit and offset if specified
+  if (limit !== null) {
+    return sortedArticles.slice(offset, offset + limit)
+  }
+  
+  return sortedArticles
 }
 
 export async function getArticleBySlug(slug) {
