@@ -1,9 +1,13 @@
 import { useState, useEffect, useMemo, useCallback, memo } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
+import './styles/article.css'
 import './themes/theme-variables.css'
 import { useCustomThemes } from './hooks/useCustomThemes'
 import { useLazyThemes } from './hooks/useLazyThemes'
 import { useColorConversion, isRedDominant } from './utils/colorUtils'
+import ArticleList from './components/ArticleList'
+import Article from './components/Article'
 
 const ColorSlider = memo(({ label, value, onChange }) => {
   const rgb = useColorConversion(value)
@@ -143,71 +147,78 @@ function App() {
   }, [switchTheme, themesLoading, themesData])
 
   return (
-    <div className="app">
-      <header className="header surface">
-        <nav className="nav">
-          <div className="nav-brand">
-            <h1 className="text-primary">Theme System Demo</h1>
-          </div>
-          <div className="nav-menu">
-            <a href="#home" className="nav-link">Home</a>
-            <a href="#about" className="nav-link">About</a>
-            <a href="#features" className="nav-link">Features</a>
-            <a href="#themes" className="nav-link">Themes</a>
-          </div>
-        </nav>
-      </header>
+    <Router>
+      <div className="app">
+        <header className="header surface">
+          <nav className="nav">
+            <div className="nav-brand">
+              <h1 className="text-primary">DocsGenius</h1>
+            </div>
+            <div className="nav-menu">
+              <a href="/" className="nav-link">Home</a>
+              <a href="/articles" className="nav-link">Articles</a>
+              <a href="#about" className="nav-link">About</a>
+              <a href="#themes" className="nav-link">Themes</a>
+            </div>
+          </nav>
+        </header>
 
-      <main className="main">
-      </main>
+        <main className="main">
+          <Routes>
+            <Route path="/" element={<ArticleList />} />
+            <Route path="/articles" element={<ArticleList />} />
+            <Route path="/article/:slug" element={<Article />} />
+          </Routes>
+        </main>
 
-      <section className="theme-selector">
-        <div className="theme-list">
-          {themesLoading ? (
-            <div className="loading-themes">Loading themes...</div>
-          ) : (
-            themesData?.map((theme) => (
+        <section className="theme-selector">
+          <div className="theme-list">
+            {themesLoading ? (
+              <div className="loading-themes">Loading themes...</div>
+            ) : (
+              themesData?.map((theme) => (
+                <button
+                  key={theme.name}
+                  className={`theme-item ${currentTheme === theme.name ? 'active' : ''}`}
+                  onClick={() => switchTheme(theme.name)}
+                >
+                  <span className="theme-color" style={{ backgroundColor: theme.colors.primary }}></span>
+                  <span className="theme-name">{theme.displayName}</span>
+                </button>
+              ))
+            )}
+            {customThemes.map((theme) => (
               <button
                 key={theme.name}
                 className={`theme-item ${currentTheme === theme.name ? 'active' : ''}`}
                 onClick={() => switchTheme(theme.name)}
               >
-                <span className="theme-color" style={{ backgroundColor: theme.colors.primary }}></span>
+                <span 
+                  className={`theme-color custom-theme-color ${isRedDominant(theme.colors.primary) ? 'red-dominant' : ''}`} 
+                  style={{ backgroundColor: theme.colors.primary }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    deleteCustomTheme(theme.name)
+                  }}
+                  title="Delete theme"
+                ></span>
                 <span className="theme-name">{theme.displayName}</span>
               </button>
-            ))
-          )}
-          {customThemes.map((theme) => (
-            <button
-              key={theme.name}
-              className={`theme-item ${currentTheme === theme.name ? 'active' : ''}`}
-              onClick={() => switchTheme(theme.name)}
-            >
-              <span 
-                className={`theme-color custom-theme-color ${isRedDominant(theme.colors.primary) ? 'red-dominant' : ''}`} 
-                style={{ backgroundColor: theme.colors.primary }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  deleteCustomTheme(theme.name)
-                }}
-                title="Delete theme"
-              ></span>
-              <span className="theme-name">{theme.displayName}</span>
-            </button>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      <footer className="footer surface">
-        <p className="text-secondary">Built with React & CSS Custom Properties</p>
-      </footer>
+        <footer className="footer surface">
+          <p className="text-secondary">Built with React & CSS Custom Properties</p>
+        </footer>
 
-      <CustomThemePopup
-        isOpen={showCustomPopup}
-        onClose={() => setShowCustomPopup(false)}
-        onSave={saveCustomTheme}
-      />
-    </div>
+        <CustomThemePopup
+          isOpen={showCustomPopup}
+          onClose={() => setShowCustomPopup(false)}
+          onSave={saveCustomTheme}
+        />
+      </div>
+    </Router>
   )
 }
 
