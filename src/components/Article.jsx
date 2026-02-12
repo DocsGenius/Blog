@@ -57,7 +57,18 @@ export default function Article() {
           {article.author && (
             <div className="article-author">
               <div className="author-avatar">
-                <img src={article.authorAvatar} alt={article.author} />
+                {article.authorLinkedin ? (
+                  <a 
+                    href={article.authorLinkedin} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    title="View LinkedIn Profile"
+                  >
+                    <img src={article.authorAvatar} alt={article.author} />
+                  </a>
+                ) : (
+                  <img src={article.authorAvatar} alt={article.author} />
+                )}
               </div>
               <div className="author-info">
                 <div className="author-name">{article.author}</div>

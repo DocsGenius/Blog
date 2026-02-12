@@ -3,9 +3,9 @@ title: Hello Genius!
 subtitle: This article goes over everything Docs Genius!
 authorId: roman-rand
 date: February 12th, 2026
-category: Technical Writing
-readingTime: 3 min read
-coverImage: https://ibb.co/LX7Fy9DS
+category: Newsletter
+readingTime: 1 min read
+coverImage: /branding/DocsGeniusIcon.png
 tags: ['Technology', 'Writing', 'General', 'DocsGenius']
 ---
 

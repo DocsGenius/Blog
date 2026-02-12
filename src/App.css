@@ -352,6 +352,34 @@ section p {
   margin-top: auto;
 }
 
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.footer-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.footer-link {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--color-primary);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .nav {
@@ -364,6 +392,16 @@ section p {
     gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: center;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .footer-nav {
+    gap: 1rem;
   }
   
   .main {

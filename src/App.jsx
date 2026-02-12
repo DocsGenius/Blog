@@ -10,6 +10,7 @@ import Home from './components/Home'
 import ArticleList from './components/ArticleList'
 import Article from './components/Article'
 import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 const ColorSlider = memo(({ label, value, onChange }) => {
   const rgb = useColorConversion(value)
@@ -224,9 +225,7 @@ function App() {
           </div>
         </section>
 
-        <footer className="footer surface">
-          <p className="text-secondary">Built with React & CSS Custom Properties</p>
-        </footer>
+        <Footer />
 
         <CustomThemePopup
           isOpen={showCustomPopup}

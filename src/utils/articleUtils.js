@@ -85,6 +85,7 @@ function parseArticle(content, filePath) {
       frontmatter.author = resolvedAuthor.name
       frontmatter.authorBio = resolvedAuthor.bio
       frontmatter.authorAvatar = resolvedAuthor.avatar
+      frontmatter.authorLinkedin = resolvedAuthor.linkedin
     }
   }
   

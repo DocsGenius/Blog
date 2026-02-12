@@ -2,7 +2,8 @@ const authorsData = {
     "roman-rand": {
         "name": "Roman Rand",
         "bio": "Technical Writer",
-        "avatar": "authors/pfp/roman-rand-001.jpeg"
+        "avatar": "/authors/pfp/roman-rand-001.jpeg",
+        "linkedin": "https://www.linkedin.com/in/roman-rand/"
     }
 }
 
