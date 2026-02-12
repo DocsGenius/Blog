@@ -66,7 +66,7 @@ const ColorSlider = ({ label, value, onChange }) => {
   )
 }
 
-const CustomThemePopup = ({ isOpen, onClose, onSave }) => {
+const CustomThemePopup = ({ isOpen, onClose, onSave, currentTheme, themesData, customThemes }) => {
   const [colors, setColors] = useState({
     primary: '#808080',
     secondary: '#a0a0a0',
@@ -80,6 +80,25 @@ const CustomThemePopup = ({ isOpen, onClose, onSave }) => {
 
   const handleColorChange = useCallback((key, value) => {
     setColors(prev => ({ ...prev, [key]: value }))
+  }, [])
+
+  const handlePullTheme = useCallback(() => {
+    // Get current theme colors from CSS variables
+    const root = document.documentElement
+    const computedStyle = getComputedStyle(root)
+    
+    const currentColors = {
+      primary: computedStyle.getPropertyValue('--color-primary').trim(),
+      secondary: computedStyle.getPropertyValue('--color-secondary').trim(),
+      accent: computedStyle.getPropertyValue('--color-accent').trim(),
+      surface: computedStyle.getPropertyValue('--color-surface').trim(),
+      background: computedStyle.getPropertyValue('--color-background').trim(),
+      text: computedStyle.getPropertyValue('--color-text').trim(),
+      border: computedStyle.getPropertyValue('--color-border').trim(),
+      highlight: computedStyle.getPropertyValue('--color-highlight').trim()
+    }
+    
+    setColors(currentColors)
   }, [])
 
   const handleSave = useCallback(() => {
@@ -110,6 +129,7 @@ const CustomThemePopup = ({ isOpen, onClose, onSave }) => {
           ))}
         </div>
         <div className="popup-footer">
+          <button className="btn secondary" onClick={handlePullTheme}>Pull Current Theme</button>
           <button className="btn secondary" onClick={onClose}>Cancel</button>
           <button className="btn primary" onClick={handleSave}>Save Theme</button>
         </div>
@@ -236,6 +256,9 @@ function App() {
           isOpen={showCustomPopup}
           onClose={() => setShowCustomPopup(false)}
           onSave={saveCustomTheme}
+          currentTheme={currentTheme}
+          themesData={themesData}
+          customThemes={customThemes}
         />
       </div>
     </Router>
