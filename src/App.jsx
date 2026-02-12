@@ -5,138 +5,15 @@ import './styles/article.css'
 import './themes/theme-variables.css'
 import { useCustomThemes } from './hooks/useCustomThemes'
 import { useLazyThemes } from './hooks/useLazyThemes'
-import { useColorConversion, isRedDominant } from './utils/colorUtils'
 import Home from './components/Home'
 import ArticleList from './components/ArticleList'
 import Article from './components/Article'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import CustomThemePopup from './components/CustomThemePopup'
+import ThemeSelector from './components/ThemeSelector'
 
-const ColorSlider = ({ label, value, onChange }) => {
-  const rgb = useColorConversion(value)
 
-  const handleRgbChange = useCallback((channel, val) => {
-    const newRgb = { ...rgb, [channel]: val }
-    const hex = '#' + [newRgb.r, newRgb.g, newRgb.b]
-      .map(x => x.toString(16).padStart(2, '0'))
-      .join('')
-    onChange(hex)
-  }, [rgb, onChange])
-
-  return (
-    <div className="color-slider">
-      <label>{label}</label>
-      <div className="slider-group">
-        <div className="slider-row">
-          <span>R</span>
-          <input
-            type="range"
-            min="0"
-            max="255"
-            value={rgb.r}
-            onChange={(e) => handleRgbChange('r', parseInt(e.target.value))}
-          />
-          <span>{rgb.r}</span>
-        </div>
-        <div className="slider-row">
-          <span>G</span>
-          <input
-            type="range"
-            min="0"
-            max="255"
-            value={rgb.g}
-            onChange={(e) => handleRgbChange('g', parseInt(e.target.value))}
-          />
-          <span>{rgb.g}</span>
-        </div>
-        <div className="slider-row">
-          <span>B</span>
-          <input
-            type="range"
-            min="0"
-            max="255"
-            value={rgb.b}
-            onChange={(e) => handleRgbChange('b', parseInt(e.target.value))}
-          />
-          <span>{rgb.b}</span>
-        </div>
-        <div className="color-preview" style={{ backgroundColor: value }}></div>
-      </div>
-    </div>
-  )
-}
-
-const CustomThemePopup = ({ isOpen, onClose, onSave, currentTheme, themesData, customThemes }) => {
-  const [colors, setColors] = useState({
-    primary: '#808080',
-    secondary: '#a0a0a0',
-    accent: '#c0c0c0',
-    surface: '#f5f5f5',
-    background: '#fafafa',
-    text: '#333333',
-    border: '#d0d0d0',
-    highlight: '#e0e0e0'
-  })
-
-  const handleColorChange = useCallback((key, value) => {
-    setColors(prev => ({ ...prev, [key]: value }))
-  }, [])
-
-  const handlePullTheme = useCallback(() => {
-    // Get current theme colors from CSS variables
-    const root = document.documentElement
-    const computedStyle = getComputedStyle(root)
-    
-    const currentColors = {
-      primary: computedStyle.getPropertyValue('--color-primary').trim(),
-      secondary: computedStyle.getPropertyValue('--color-secondary').trim(),
-      accent: computedStyle.getPropertyValue('--color-accent').trim(),
-      surface: computedStyle.getPropertyValue('--color-surface').trim(),
-      background: computedStyle.getPropertyValue('--color-background').trim(),
-      text: computedStyle.getPropertyValue('--color-text').trim(),
-      border: computedStyle.getPropertyValue('--color-border').trim(),
-      highlight: computedStyle.getPropertyValue('--color-highlight').trim()
-    }
-    
-    setColors(currentColors)
-  }, [])
-
-  const handleSave = useCallback(() => {
-    const themeName = prompt('Enter a name for your custom theme:')
-    if (themeName) {
-      onSave({ name: themeName, displayName: themeName, colors })
-      onClose()
-    }
-  }, [colors, onSave, onClose])
-
-  if (!isOpen) return null
-
-  return (
-    <div className="popup-overlay">
-      <div className="popup">
-        <div className="popup-header">
-          <h3>Create Custom Theme</h3>
-          <button className="close-btn" onClick={onClose}>×</button>
-        </div>
-        <div className="popup-content">
-          {Object.entries(colors).map(([key, value]) => (
-            <ColorSlider
-              key={key}
-              label={key.charAt(0).toUpperCase() + key.slice(1)}
-              value={value}
-              onChange={(newValue) => handleColorChange(key, newValue)}
-            />
-          ))}
-        </div>
-        <div className="popup-footer">
-          <button className="btn secondary" onClick={handlePullTheme}>Pull Current Theme</button>
-          <button className="btn secondary" onClick={onClose}>Cancel</button>
-          <button className="btn primary" onClick={handleSave}>Save Theme</button>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState(() => {
@@ -201,54 +78,15 @@ function App() {
           </Routes>
         </main>
 
-        <section className="theme-selector">
-          <div className="theme-list">
-            {themesLoading ? (
-              <div className="loading-themes">Loading themes...</div>
-            ) : (
-              themesData?.map((theme) => (
-                <button
-                  key={theme.name}
-                  className={`theme-item ${currentTheme === theme.name ? 'active' : ''}`}
-                  onClick={() => switchTheme(theme.name)}
-                >
-                  <span className="theme-color" style={{ backgroundColor: theme.colors.primary }}></span>
-                  <span className="theme-name">{theme.displayName}</span>
-                </button>
-              ))
-            )}
-            {customThemes.map((theme) => (
-              <button
-                key={theme.name}
-                className={`theme-item ${currentTheme === theme.name ? 'active' : ''}`}
-                onClick={() => switchTheme(theme.name)}
-              >
-                <span 
-                  className={`theme-color custom-theme-color ${isRedDominant(theme.colors.primary) ? 'red-dominant' : ''}`} 
-                  style={{ backgroundColor: theme.colors.primary }}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    if (confirm(`Delete "${theme.displayName}" theme?`)) {
-                      deleteCustomTheme(theme.name)
-                    }
-                  }}
-                  title="Delete theme"
-                ></span>
-                <span className="theme-name">{theme.displayName}</span>
-              </button>
-            ))}
-            <button
-              className="theme-item custom-theme-button"
-              onClick={() => setShowCustomPopup(true)}
-            >
-              <span className="theme-color" style={{ 
-                background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4)',
-                border: '2px dashed #ccc'
-              }}></span>
-              <span className="theme-name">+ Custom</span>
-            </button>
-          </div>
-        </section>
+        <ThemeSelector
+          themesData={themesData}
+          customThemes={customThemes}
+          currentTheme={currentTheme}
+          themesLoading={themesLoading}
+          switchTheme={switchTheme}
+          deleteCustomTheme={deleteCustomTheme}
+          onCustomThemeClick={() => setShowCustomPopup(true)}
+        />
 
         <Footer />
 
