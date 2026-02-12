@@ -112,8 +112,8 @@ const themesData = [
     }
   },
   {
-    "name": "emerald",
-    "displayName": "Emerald",
+    "name": "lime",
+    "displayName": "Lime",
     "colors": {
       "primary": "#50c878",
       "secondary": "#3cb371",
