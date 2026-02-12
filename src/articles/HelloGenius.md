@@ -16,6 +16,18 @@ Later on, DocsGenius plans on exclusively supporting small writers and students.
 
 The website is currently in development. For those so lucky to be reading this, I made some fun themes for you all at the bottom of the page!
 
+Here's our development progress over the last few months:
+
+```chart-bar
+monthly-sales
+```
+
+And here's our technology stack distribution:
+
+```chart-pie
+browser-share
+```
+
 ```js
 haveFun(true);
 ```
