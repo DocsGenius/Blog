@@ -5,7 +5,7 @@ authorId: roman-rand
 date: February 12th, 2026
 category: Informational
 readingTime: 3 min read
-coverImage: /branding/DocsGeniusIcon.png
+coverImage: /articles/covers/SpacedRepetitionForProgramming.png
 tags: ['Java', 'Studying', 'Self-Education', 'DocsGenius']
 ---
 
