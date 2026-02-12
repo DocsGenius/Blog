@@ -6,6 +6,7 @@ import './themes/theme-variables.css'
 import { useCustomThemes } from './hooks/useCustomThemes'
 import { useLazyThemes } from './hooks/useLazyThemes'
 import { useColorConversion, isRedDominant } from './utils/colorUtils'
+import Home from './components/Home'
 import ArticleList from './components/ArticleList'
 import Article from './components/Article'
 
@@ -165,7 +166,7 @@ function App() {
 
         <main className="main">
           <Routes>
-            <Route path="/" element={<ArticleList />} />
+            <Route path="/" element={<Home />} />
             <Route path="/articles" element={<ArticleList />} />
             <Route path="/article/:slug" element={<Article />} />
           </Routes>
