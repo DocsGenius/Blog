@@ -175,11 +175,146 @@ section p {
   border-radius: 50%;
   border: 1px solid var(--color-border);
   display: inline-block;
+  position: relative;
+}
+
+.custom-theme-color {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-theme-color:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px rgba(255, 68, 68, 0.5);
+  background-color: rgba(255, 68, 68, 0.8) !important;
+}
+
+/* Black hover for red-dominant colors to maintain contrast */
+.custom-theme-color.red-dominant:hover {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 .theme-name {
   font-size: 0.9rem;
   color: var(--color-text);
+}
+
+
+/* Custom Theme Popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px var(--color-shadow);
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.popup-header h3 {
+  margin: 0;
+  color: var(--color-primary-text);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-text);
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.close-btn:hover {
+  background-color: var(--color-hover);
+}
+
+.popup-content {
+  padding: 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.popup-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Color Slider */
+.color-slider {
+  margin-bottom: 1.5rem;
+}
+
+.color-slider label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--color-primary-text);
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.slider-row span:first-child {
+  width: 20px;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+  margin: 0;
+}
+
+.slider-row span:last-child {
+  width: 40px;
+  text-align: right;
+  font-family: monospace;
+  color: var(--color-text);
+}
+
+.color-preview {
+  width: 100%;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  margin-top: 0.5rem;
 }
 
 /* Color Demo */
