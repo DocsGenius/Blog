@@ -159,7 +159,10 @@ function App() {
         <header className="header surface">
           <nav className="nav">
             <div className="nav-brand">
-              <h1 className="text-primary">DocsGenius</h1>
+              <Link to="/" className="nav-brand-link">
+                <img src="/branding/DocsGeniusIconClear.png" alt="DocsGenius" className="nav-icon" />
+                <h1 className="text-primary">DocsGenius</h1>
+              </Link>
             </div>
             <div className="nav-menu">
               <Link to="/" className="nav-link">Home</Link>

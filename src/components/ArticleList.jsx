@@ -56,14 +56,14 @@ export default function ArticleList() {
                 
                 <div className="article-card-footer">
                   <div className="article-author-mini">
-                    {article.author && (
+                    {article.author && article.authorAvatar && (
                       <>
                         <img 
-                          src={article.author.avatar} 
-                          alt={article.author.name}
+                          src={article.authorAvatar} 
+                          alt={article.author}
                           className="author-avatar-mini"
                         />
-                        <span>{article.author.name}</span>
+                        <span>{article.author}</span>
                       </>
                     )}
                   </div>
