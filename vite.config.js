@@ -6,5 +6,5 @@ export default defineConfig({
   plugins: [
     react()
   ],
-  base: '/', // important for GitHub Pages user site
+  base: '/Blog/', // important for GitHub Pages project site
 })

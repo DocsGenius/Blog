@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://docsgenius.github.io/",
+  "homepage": "https://docsgenius.github.io/Blog/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
