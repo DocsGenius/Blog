@@ -1,33 +1,22 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import './themes/light.css'
+import './themes/base.css'
+import themesData from './themes.json'
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState('light')
 
-  const themes = [
-    'light',
-    'dark', 
-    'ocean',
-    'forest',
-    'sunset',
-    'purple',
-    'monochrome',
-    'candy'
-  ]
-
-  const switchTheme = (theme) => {
-    // Remove all existing theme stylesheets
-    const existingLinks = document.querySelectorAll('link[rel="stylesheet"][href*="themes/"]')
-    existingLinks.forEach(link => link.remove())
+  const switchTheme = (themeName) => {
+    const theme = themesData.find(t => t.name === themeName)
+    if (!theme) return
     
-    // Add new theme stylesheet
-    const newLink = document.createElement('link')
-    newLink.rel = 'stylesheet'
-    newLink.href = `/src/themes/${theme}.css`
-    document.head.appendChild(newLink)
+    // Apply theme colors as CSS custom properties
+    const root = document.documentElement
+    Object.entries(theme.colors).forEach(([key, value]) => {
+      root.style.setProperty(`--color-${key}`, value)
+    })
     
-    setCurrentTheme(theme)
+    setCurrentTheme(themeName)
   }
 
   useEffect(() => {
@@ -55,14 +44,14 @@ function App() {
 
       <section className="theme-selector">
         <div className="theme-list">
-          {themes.map((theme) => (
+          {themesData.map((theme) => (
             <button
-              key={theme}
-              className={`theme-item ${currentTheme === theme ? 'active' : ''}`}
-              onClick={() => switchTheme(theme)}
+              key={theme.name}
+              className={`theme-item ${currentTheme === theme.name ? 'active' : ''}`}
+              onClick={() => switchTheme(theme.name)}
             >
-              <span className="theme-color" data-theme={theme}></span>
-              <span className="theme-name">{theme.charAt(0).toUpperCase() + theme.slice(1)}</span>
+              <span className="theme-color" style={{ backgroundColor: theme.colors.primary }}></span>
+              <span className="theme-name">{theme.displayName}</span>
             </button>
           ))}
         </div>

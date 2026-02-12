@@ -182,16 +182,6 @@ section p {
   color: var(--color-text);
 }
 
-/* Theme color definitions */
-.theme-color[data-theme="light"] { background-color: #000000; }
-.theme-color[data-theme="dark"] { background-color: #ffffff; }
-.theme-color[data-theme="ocean"] { background-color: #0066cc; }
-.theme-color[data-theme="forest"] { background-color: #228b22; }
-.theme-color[data-theme="sunset"] { background-color: #ff6b35; }
-.theme-color[data-theme="purple"] { background-color: #9b59b6; }
-.theme-color[data-theme="monochrome"] { background-color: #333333; }
-.theme-color[data-theme="candy"] { background-color: #ff69b4; }
-
 /* Color Demo */
 .color-showcase {
   display: grid;

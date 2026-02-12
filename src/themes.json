@@ -1,0 +1,114 @@
+[
+  {
+    "name": "light",
+    "displayName": "Light",
+    "colors": {
+      "primary": "#000000",
+      "secondary": "#666666",
+      "accent": "#0066cc",
+      "surface": "#ffffff",
+      "background": "#f5f5f5",
+      "text": "#333333",
+      "border": "#e0e0e0",
+      "highlight": "#ffff00"
+    }
+  },
+  {
+    "name": "dark",
+    "displayName": "Dark",
+    "colors": {
+      "primary": "#ecf0f1",
+      "secondary": "#95a5a6",
+      "accent": "#3498db",
+      "surface": "#2c3e50",
+      "background": "#1a1a1a",
+      "text": "#ecf0f1",
+      "border": "#34495e",
+      "highlight": "#f39c12"
+    }
+  },
+  {
+    "name": "ocean",
+    "displayName": "Ocean",
+    "colors": {
+      "primary": "#006994",
+      "secondary": "#4a90a4",
+      "accent": "#00d4aa",
+      "surface": "#f0f8ff",
+      "background": "#e6f3ff",
+      "text": "#003d5c",
+      "border": "#b8d4e3",
+      "highlight": "#87ceeb"
+    }
+  },
+  {
+    "name": "forest",
+    "displayName": "Forest",
+    "colors": {
+      "primary": "#2d5016",
+      "secondary": "#5a7c3a",
+      "accent": "#8bc34a",
+      "surface": "#f1f8e9",
+      "background": "#f9fbe7",
+      "text": "#1b5e20",
+      "border": "#c5e1a5",
+      "highlight": "#ffeb3b"
+    }
+  },
+  {
+    "name": "sunset",
+    "displayName": "Sunset",
+    "colors": {
+      "primary": "#d84315",
+      "secondary": "#ff6e40",
+      "accent": "#ffab00",
+      "surface": "#fff3e0",
+      "background": "#fbe9e7",
+      "text": "#bf360c",
+      "border": "#ffccbc",
+      "highlight": "#ffeb3b"
+    }
+  },
+  {
+    "name": "purple",
+    "displayName": "Purple",
+    "colors": {
+      "primary": "#4a148c",
+      "secondary": "#7b1fa2",
+      "accent": "#e040fb",
+      "surface": "#f3e5f5",
+      "background": "#faf5ff",
+      "text": "#311b92",
+      "border": "#ce93d8",
+      "highlight": "#ffd54f"
+    }
+  },
+  {
+    "name": "monochrome",
+    "displayName": "Monochrome",
+    "colors": {
+      "primary": "#000000",
+      "secondary": "#666666",
+      "accent": "#333333",
+      "surface": "#ffffff",
+      "background": "#f5f5f5",
+      "text": "#000000",
+      "border": "#cccccc",
+      "highlight": "#ffff00"
+    }
+  },
+  {
+    "name": "candy",
+    "displayName": "Candy",
+    "colors": {
+      "primary": "#d81b60",
+      "secondary": "#f48fb1",
+      "accent": "#ff4081",
+      "surface": "#fce4ec",
+      "background": "#fff0f5",
+      "text": "#880e4f",
+      "border": "#f8bbd0",
+      "highlight": "#ffeb3b"
+    }
+  }
+]
