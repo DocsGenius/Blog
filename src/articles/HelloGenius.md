@@ -7,6 +7,17 @@ category: Newsletter
 readingTime: 1 min read
 coverImage: /branding/GeniusDocsIcon.png
 tags: ['Technology', 'Writing', 'General', 'Originals']
+chartData:
+  monthly-sales:
+    - { month: 'Jan', revenue: 400, costs: 200 }
+    - { month: 'Feb', revenue: 600, costs: 300 }
+    - { month: 'Mar', revenue: 800, costs: 400 }
+  browser-share:
+    - { browser: 'Chrome', share: 65 }
+    - { browser: 'Firefox', share: 15 }
+    - { browser: 'Safari', share: 12 }
+    - { browser: 'Edge', share: 5 }
+    - { browser: 'Other', share: 3 }
 ---
 
 Genius Docs is a tecnical writing platform started By Roman Rand.

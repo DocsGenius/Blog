@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { getArticleBySlug } from '../utils/articleUtils'
 import ReactMarkdown from 'react-markdown'
-import { markdownComponents } from './MarkdownComponents'
+import { getMarkdownComponents } from './MarkdownComponents'
 
 export default function Article() {
   const { slug } = useParams()
@@ -86,7 +86,7 @@ export default function Article() {
         )}
 
         <div className="article-content">
-          <ReactMarkdown components={markdownComponents}>
+          <ReactMarkdown components={getMarkdownComponents(article.chartData)}>
             {article.content}
           </ReactMarkdown>
         </div>

@@ -7,6 +7,23 @@ category: Informational
 readingTime: 3 min read
 coverImage: /articles/covers/SpacedRepetitionForProgramming.png
 tags: ['Java', 'Studying', 'Self-Education', 'Originals']
+chartData:
+  learning-progress:
+    - { week: 'Week 1', concepts: 5, practice: 3, review: 2 }
+    - { week: 'Week 2', concepts: 8, practice: 6, review: 4 }
+    - { week: 'Week 3', concepts: 12, practice: 10, review: 8 }
+    - { week: 'Week 4', concepts: 15, practice: 14, review: 12 }
+    - { week: 'Week 5', concepts: 18, practice: 18, review: 16 }
+    - { week: 'Week 6', concepts: 20, practice: 22, review: 20 }
+  programming-languages:
+    - { language: 'JavaScript', popularity: 68 }
+    - { language: 'Python', popularity: 55 }
+    - { language: 'Java', popularity: 45 }
+    - { language: 'TypeScript', popularity: 38 }
+    - { language: 'C++', popularity: 25 }
+    - { language: 'Go', popularity: 15 }
+    - { language: 'Rust', popularity: 12 }
+    - { language: 'Other', popularity: 8 }
 ---
 
 Spaced Repetition is a method of learning that has been shown to be effective in a variety of contexts.

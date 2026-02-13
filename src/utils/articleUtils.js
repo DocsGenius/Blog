@@ -1,5 +1,6 @@
 // Utility functions for loading and parsing markdown articles
 
+import yaml from 'js-yaml'
 import authorsData from '../data/authorsData.js'
 
 // Import all markdown files as raw text
@@ -65,45 +66,21 @@ function parseArticle(content, filePath) {
     throw new Error(`Invalid frontmatter in ${filePath}`)
   }
   
-  const frontmatterStr = match[1]
-  const markdownContent = match[2]
-  
-  // Parse frontmatter
-  const frontmatter = {}
-  frontmatterStr.split('\n').forEach(line => {
-    const colonIndex = line.indexOf(':')
-    if (colonIndex > 0) {
-      const key = line.slice(0, colonIndex).trim()
-      let value = line.slice(colonIndex + 1).trim()
-      
-      // Remove quotes if present
-      if (value.startsWith("'") && value.endsWith("'")) {
-        value = value.slice(1, -1)
-      } else if (value.startsWith('"') && value.endsWith('"')) {
-        value = value.slice(1, -1)
-      }
-      
-      // Parse arrays
-      if (value.startsWith('[') && value.endsWith(']')) {
-        value = value.slice(1, -1).split(',').map(item => item.trim().replace(/['"]/g, ''))
-      }
-      
-      frontmatter[key] = value
-    }
-  })
+  // USE JS-YAML INSTEAD OF MANUAL LOOP
+  const frontmatter = yaml.load(match[1]); 
+  const markdownContent = match[2];
   
   // Extract slug from file path
   const slug = filePath.split('/').pop().replace('.md', '')
   
   // Resolve author if authorId is present
-  let resolvedAuthor = null
   if (frontmatter.authorId) {
-    resolvedAuthor = resolveAuthor(frontmatter.authorId)
+    const resolvedAuthor = resolveAuthor(frontmatter.authorId);
     if (resolvedAuthor) {
-      frontmatter.author = resolvedAuthor.name
-      frontmatter.authorBio = resolvedAuthor.bio
-      frontmatter.authorAvatar = resolvedAuthor.avatar
-      frontmatter.authorLinkedin = resolvedAuthor.linkedin
+      frontmatter.author = resolvedAuthor.name;
+      frontmatter.authorBio = resolvedAuthor.bio;
+      frontmatter.authorAvatar = resolvedAuthor.avatar;
+      frontmatter.authorLinkedin = resolvedAuthor.linkedin;
     }
   }
   
