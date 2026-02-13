@@ -1,9 +1,9 @@
 {
-  "name": "genius-docs-site",
+  "name": "docs-genius-site",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://geniusdocs.blog",
+  "homepage": "https://docsgenius.blog",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
