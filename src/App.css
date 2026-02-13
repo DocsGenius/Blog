@@ -179,6 +179,7 @@ section p {
   padding: 1rem;
   justify-content: center;
   align-items: center;
+  align-content: flex-start; /* Prevents layout shifts */
 }
 
 .theme-item {
@@ -186,11 +187,13 @@ section p {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  border: none;
+  border: 1px solid transparent; /* Add transparent border to prevent shifting */
   background: none;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s ease;
+  min-width: 100px; /* Ensure consistent width */
+  justify-content: center;
 }
 
 .theme-item:hover {
@@ -199,7 +202,8 @@ section p {
 
 .theme-item.active {
   background-color: var(--color-surface);
-  border: 1px solid var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent); /* Use box-shadow for consistent sizing */
 }
 
 .theme-color {
@@ -231,6 +235,8 @@ section p {
 .theme-name {
   font-size: 0.9rem;
   color: var(--color-text);
+  white-space: nowrap; /* Prevent text wrapping */
+  text-align: center;
 }
 
 

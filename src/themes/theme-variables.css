@@ -31,6 +31,17 @@
   --color-disabled: var(--color-border);
   --color-shadow: rgba(0, 0, 0, 0.1);
   --color-overlay: rgba(0, 0, 0, 0.5);
+  
+  /* Smooth transitions for theme switching */
+  transition: 
+    --color-primary 0.3s ease,
+    --color-secondary 0.3s ease,
+    --color-accent 0.3s ease,
+    --color-surface 0.3s ease,
+    --color-background 0.3s ease,
+    --color-text 0.3s ease,
+    --color-border 0.3s ease,
+    --color-highlight 0.3s ease;
 }
 
 /* Base Theme Styles */
@@ -38,6 +49,15 @@ body {
   background-color: var(--color-background);
   color: var(--color-primary-text);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme switching transitions */
+.theme-switching * {
+  transition: all 0.3s ease !important;
+}
+
+.theme-switching {
+  pointer-events: none;
 }
 
 /* Utility Classes */

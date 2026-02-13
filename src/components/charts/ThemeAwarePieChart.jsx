@@ -19,15 +19,20 @@ export const ThemeAwarePieChart = ({ data, nameKey, valueKey }) => {
   });
 
   useEffect(() => {
+    let timeoutId;
+    
     const updateColors = () => {
-      setThemeColors({
-        primary: getCSSVar('--color-primary'),
-        secondary: getCSSVar('--color-secondary'),
-        accent: getCSSVar('--color-accent'),
-        surface: getCSSVar('--color-surface'),
-        border: getCSSVar('--color-border'),
-        text: getCSSVar('--color-text')
-      });
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setThemeColors({
+          primary: getCSSVar('--color-primary'),
+          secondary: getCSSVar('--color-secondary'),
+          accent: getCSSVar('--color-accent'),
+          surface: getCSSVar('--color-surface'),
+          border: getCSSVar('--color-border'),
+          text: getCSSVar('--color-text')
+        });
+      }, 100); // Small delay to allow theme transition to start
     };
 
     updateColors();
@@ -46,7 +51,10 @@ export const ThemeAwarePieChart = ({ data, nameKey, valueKey }) => {
       attributeFilter: ['style'] 
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   // Generate color palette from theme colors

@@ -35,12 +35,23 @@ function App() {
     if (!theme) return
     
     const root = document.documentElement
+    
+    // Add a temporary class to prevent layout shifts during transition
+    root.classList.add('theme-switching')
+    
+    // Apply new theme colors
     Object.entries(theme.colors).forEach(([key, value]) => {
       root.style.setProperty(`--color-${key}`, value)
     })
     
+    // Update state and localStorage
     setCurrentTheme(themeName)
     localStorage.setItem('selectedTheme', themeName)
+    
+    // Remove the switching class after transition completes
+    setTimeout(() => {
+      root.classList.remove('theme-switching')
+    }, 300)
   }, [themesData, customThemes])
 
   useEffect(() => {

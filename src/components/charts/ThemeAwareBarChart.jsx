@@ -22,16 +22,21 @@ export const ThemeAwareBarChart = ({ data, xKey, bars }) => {
 
   // Update colors when theme changes
   useEffect(() => {
+    let timeoutId;
+    
     const updateColors = () => {
-      setThemeColors({
-        primary: getCSSVar('--color-primary'),
-        secondary: getCSSVar('--color-secondary'),
-        accent: getCSSVar('--color-accent'),
-        text: getCSSVar('--color-text'),
-        border: getCSSVar('--color-border'),
-        surface: getCSSVar('--color-surface'),
-        background: getCSSVar('--color-background')
-      });
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setThemeColors({
+          primary: getCSSVar('--color-primary'),
+          secondary: getCSSVar('--color-secondary'),
+          accent: getCSSVar('--color-accent'),
+          text: getCSSVar('--color-text'),
+          border: getCSSVar('--color-border'),
+          surface: getCSSVar('--color-surface'),
+          background: getCSSVar('--color-background')
+        });
+      }, 100); // Small delay to allow theme transition to start
     };
 
     // Initial update
@@ -52,7 +57,10 @@ export const ThemeAwareBarChart = ({ data, xKey, bars }) => {
       attributeFilter: ['style'] 
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
