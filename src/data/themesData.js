@@ -93,7 +93,7 @@ const themesData = [
       "surface": "#f4fbff",
       "background": "#eaf7ff",
       "text": "#0f3057",
-      "border": "#cdefff",
+      "border": "#cdefffac",
       "highlight": "#00e5ff"
     }
   },

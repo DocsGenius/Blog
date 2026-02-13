@@ -82,14 +82,14 @@
 
 .article-category {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-text);
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-weight: 500;
 }
 
 .article-date {
-  color: var(--color-text-secondary);
+  color: var(--color-text);
 }
 
 .article-card-title {
@@ -178,13 +178,13 @@
   gap: 1rem;
   margin-bottom: 1.5rem;
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   flex-wrap: wrap;
 }
 
 .article-category {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-text);
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-weight: 500;
@@ -200,7 +200,7 @@
 
 .article-subtitle {
   font-size: 1.25rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   line-height: 1.5;
   margin-bottom: 2rem;
 }
@@ -394,7 +394,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--color-primary);
+  color: var(--color-text);
   text-decoration: none;
   font-weight: 500;
   padding: 0.75rem 1.5rem;
