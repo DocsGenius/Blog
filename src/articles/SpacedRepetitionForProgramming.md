@@ -6,7 +6,7 @@ date: February 12th, 2026
 category: Informational
 readingTime: 3 min read
 coverImage: /articles/covers/SpacedRepetitionForProgramming.png
-tags: ['Java', 'Studying', 'Self-Education', 'DocsGenius']
+tags: ['Java', 'Studying', 'Self-Education', 'Originals']
 ---
 
 Spaced Repetition is a method of learning that has been shown to be effective in a variety of contexts.

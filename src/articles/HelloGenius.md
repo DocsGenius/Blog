@@ -1,20 +1,20 @@
 ---
 title: Hello Genius!
-subtitle: This article goes over everything Docs Genius!
+subtitle: This article goes over everything Genius-Docs!
 authorId: roman-rand
 date: February 11th, 2026
 category: Newsletter
 readingTime: 1 min read
-coverImage: /branding/DocsGeniusIcon.png
-tags: ['Technology', 'Writing', 'General', 'DocsGenius']
+coverImage: /branding/GeniusDocsIcon.png
+tags: ['Technology', 'Writing', 'General', 'Originals']
 ---
 
-DocsGenius is a blog started By Roman Rand.
-Later on, DocsGenius plans on exclusively supporting small writers and students.
+Genius Docs is a tecnical writing platform started By Roman Rand.
+Later on, Genius Docs plans on exclusively supporting small writers and collegiate students.
 
 ## #Status Update
 
-The website is currently in development. For those so lucky to be reading this, I made some fun themes for you all at the bottom of the page!
+The website, and brand, is currently in development. For those so lucky to be reading this, I made some fun themes for you all at the bottom of the page!
 
 Here's our development progress over the last few months:
 
@@ -34,7 +34,7 @@ haveFun(true);
 
 ## A glance into the future
 
-Docs Genius plans on supporting exclusively small writers, undergraduates/masters, and self-taught developers.
+WE MEAN IT!!! Genius Docs plans on supporting exclusively small writers, undergraduates/masters, and vetted self-taught developers.
 The discord is under works, but will be the subject of the next *daily* update
 
 ```js
