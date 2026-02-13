@@ -49,18 +49,6 @@ Spaced Repetition is effective because of how your brain remembers information, 
 
 It's an interesting question, that's not quite exposed to programmers... Traditionally, we study programming by Project Based Learning, where we learn by doing. This is a great way to learn, but it's not the best way to learn once you've done everything in projects. Spaced Repetition can be used to expand upon the finer details of programming, for instance in Java one might be interested in learning about the structure of an Object.
 
-Here's a visualization of learning progress with spaced repetition over 6 weeks:
-
-```chart-bar
-learning-progress
-```
-
-And here's the distribution of programming languages that benefit most from spaced repetition:
-
-```chart-pie
-programming-languages
-```
-
 For those who might now be curious, or looking to see if they remember;
 A Java Object is a class that has been instantiated, consisting of fields and methods. In memory the Object is stored as a collection of bytes, representing the header, the fields, and the padding.
 The header consists of a reference to the class, the hash code, and the lock word, and GC (Garbage Collection) data.
