@@ -1,7 +1,7 @@
 export default function Features() {
   const features = [
     {
-      title: 'DocsGenius is FREE!',
+      title: 'Genius Docs is FREE!',
       description: 'Access to all articles is free for all users'
     },
     {
@@ -18,14 +18,14 @@ export default function Features() {
     },
     {
       title: 'Owned by Writers, for Writers',
-      description: 'Selling out is something DocsGenius will never do!'
+      description: 'Selling out is something Genius Docs will never do!'
     }
   ]
 
   return (
     <section id="about" className="features">
       <div className="section-header">
-        <h2>The DocsGenius Mission</h2>
+        <h2>The Genius Docs Mission</h2>
         <p>Supporting small writers and helping them grow their careers!</p>
       </div>
       

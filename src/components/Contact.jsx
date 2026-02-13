@@ -79,7 +79,7 @@ export default function Contact() {
           <div className="contact-methods">
             <div className="contact-method">
               <h3>Email</h3>
-              <p>contact@docsgenius.blog</p>
+              <p>contact@geniusdocs.blog</p>
             </div>
             <div className="contact-method">
               <h3>Response Time</h3>

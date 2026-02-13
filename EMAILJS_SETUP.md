@@ -1,6 +1,6 @@
 # EmailJS Setup Guide, FOR THOSE COPYING THIS REPOSITORY!
 
-This document explains how to configure EmailJS for the DocsGenius contact form.
+This document explains how to configure EmailJS for the Genius Docs contact form.
 
 ## Step 1: Create EmailJS Account
 

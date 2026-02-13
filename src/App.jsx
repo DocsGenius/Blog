@@ -57,8 +57,8 @@ function App() {
           <nav className="nav">
             <div className="nav-brand">
               <Link to="/" className="nav-brand-link">
-                <img src="/branding/DocsGeniusIconClear.png" alt="DocsGenius" className="nav-icon" />
-                <h1 className="text-primary">DocsGenius</h1>
+                <img src="/branding/GeniusDocsIconClear.png" alt="Genius Docs" className="nav-icon" />
+                <h1 className="text-primary">Genius Docs</h1>
               </Link>
             </div>
             <div className="nav-menu">

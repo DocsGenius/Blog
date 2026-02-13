@@ -1,5 +1,5 @@
-# DocsGenius site
-This is the source code for the DocsGenius website. It is a static website built with React and Vite.
+# Genius Docs site
+This is the source code for the Genius Docs website. It is a static website built with React and Vite.
 
 ## Welcome!
 
