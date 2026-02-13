@@ -379,7 +379,7 @@
 
 .article-tag {
   background: var(--color-highlight);
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.875rem;
