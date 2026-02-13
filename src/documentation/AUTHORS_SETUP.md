@@ -1,6 +1,6 @@
 # Authors Configuration Guide
 
-This guide explains how to manage author profiles in the DocsGenius platform.
+This guide explains how to manage author profiles in the Genius Docs platform.
 
 ## Authors Data Structure
 

@@ -1,6 +1,6 @@
 # Documentation Index
 
-Welcome to the DocsGenius documentation! This guide covers everything you need to know about creating, managing, and developing content on the DocsGenius platform.
+Welcome to the GeniusDocs documentation! This guide covers everything you need to know about creating, managing, and developing content on the Genius Docs platform.
 
 ## Getting Started
 
@@ -155,4 +155,4 @@ For questions or issues:
 - Keep frontmatter consistent
 - Test across different themes
 
-This documentation should help you create amazing content and contribute to the DocsGenius platform effectively.
+This documentation should help you create amazing content and contribute to the Genius Docs platform effectively.

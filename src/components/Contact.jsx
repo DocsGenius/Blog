@@ -42,7 +42,7 @@ export default function Contact() {
         from_email: formData.email,
         subject: formData.subject,
         message: formData.message,
-        to_email: 'contact@docsgenius.blog'
+        to_email: 'contact@geniusdocs.blog'
       }
 
       await emailjs.send(

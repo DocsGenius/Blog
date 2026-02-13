@@ -1,10 +1,10 @@
 # Charts Integration Guide
 
-This guide explains how to create and integrate interactive charts in DocsGenius articles.
+This guide explains how to create and integrate interactive charts in Genius Docs articles.
 
 ## Chart System Overview
 
-DocsGenius uses Recharts library to render interactive charts directly from Markdown frontmatter data. The system supports bar charts and pie charts with automatic theme integration.
+Genius Docs uses Recharts library to render interactive charts directly from Markdown frontmatter data. The system supports bar charts and pie charts with automatic theme integration.
 
 ## Supported Chart Types
 
@@ -242,4 +242,4 @@ Charts automatically adapt to container size. Ensure parent container has proper
 }
 ```
 
-This chart system provides a powerful way to visualize data while maintaining consistency with the DocsGenius design system.
+This chart system provides a powerful way to visualize data while maintaining consistency with the Genius Docs design system.

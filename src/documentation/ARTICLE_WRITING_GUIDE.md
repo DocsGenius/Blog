@@ -1,6 +1,6 @@
-# Writing Articles for DocsGenius
+# Writing Articles for Genius Docs
 
-This guide explains how to write beautiful, functional articles for the DocsGenius platform using Markdown.
+This guide explains how to write beautiful, functional articles for the Genius Docs platform using Markdown.
 
 ## Article Structure
 
@@ -172,4 +172,4 @@ Happy coding!
 - Store cover images in `/articles/covers/`
 - Keep chart data concise and relevant
 
-That's it! You're ready to create beautiful, interactive articles for DocsGenius.
+That's it! You're ready to create beautiful, interactive articles for Genius Docs.

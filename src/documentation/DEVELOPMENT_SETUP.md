@@ -1,6 +1,6 @@
 # Development Setup Guide
 
-This guide explains how to set up and develop the DocsGenius platform locally.
+This guide explains how to set up and develop the Genius Docs platform locally.
 
 ## Prerequisites
 
@@ -158,7 +158,7 @@ VITE_EMAILJS_TEMPLATE_ID=your_template_id_here
 ### GitHub Pages (Current)
 1. Push to `main` branch
 2. GitHub Actions automatically deploy
-3. Available at `https://docsgenius.blog`
+3. Available at `https://geniusdocs.blog`
 
 ### Manual Build
 ```bash
@@ -230,4 +230,4 @@ npm install
 4. Submit pull request
 5. Address feedback
 
-This setup ensures a smooth development experience for the DocsGenius platform.
+This setup ensures a smooth development experience for the Genius Docs platform.

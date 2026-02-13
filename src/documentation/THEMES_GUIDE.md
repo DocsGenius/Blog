@@ -1,10 +1,10 @@
 # Themes Configuration Guide
 
-This guide explains how to manage and customize themes in the DocsGenius platform.
+This guide explains how to manage and customize themes in the Genius Docs platform.
 
 ## Theme System Overview
 
-DocsGenius includes 20 pre-built themes that users can switch between. Themes are defined in `/src/data/themesData.js` and automatically applied throughout the application.
+Genius Docs includes 20 pre-built themes that users can switch between. Themes are defined in `/src/data/themesData.js` and automatically applied throughout the application.
 
 ## Theme Structure
 
@@ -199,4 +199,4 @@ h1 {
 2. Ensure data points are visible
 3. Check legend readability
 
-This theme system provides flexibility while maintaining consistency across the DocsGenius platform.
+This theme system provides flexibility while maintaining consistency across the Genius Docs platform.
