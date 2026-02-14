@@ -266,15 +266,24 @@ export default function CreateArticle() {
                   value={chartDataYaml}
                   onChange={(e) => setChartDataYaml(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === 'Tab' && !e.shiftKey && !chartDataYaml.trim()) {
+                    if (e.key === 'Tab' && !e.shiftKey) {
                       e.preventDefault()
-                      setChartDataYaml(`monthly-sales:
+                      const template = `monthly-sales:
   - month: 'Jan'
     revenue: 400
     costs: 200
   - month: 'Feb'
     revenue: 600
-    costs: 300`)
+    costs: 300`
+                      const start = e.target.selectionStart
+                      const end = e.target.selectionEnd
+                      const insertText = "\n" + template
+                      const newValue = chartDataYaml.slice(0, start) + insertText + chartDataYaml.slice(end)
+                      setChartDataYaml(newValue)
+                      // Set cursor after the inserted template
+                      setTimeout(() => {
+                        e.target.selectionStart = e.target.selectionEnd = start + insertText.length
+                      }, 0)
                     }
                   }}
                   placeholder="(Tab to use template) Enter chart data in YAML format, e.g.:
