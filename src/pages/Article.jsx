@@ -3,14 +3,12 @@ import { useParams, Link } from 'react-router-dom'
 import { getArticleBySlug } from '../utils/articleUtils'
 import ReactMarkdown from 'react-markdown'
 import { getMarkdownComponents } from '../components/MarkdownComponents'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import SEO from '../components/SEO'
 
 export default function Article() {
   const { slug } = useParams()
   const [article, setArticle] = useState(null)
   const [loading, setLoading] = useState(true)
-
-  useDocumentTitle(article?.title + ' - Genius Docs' || 'Genius Docs')
 
   useEffect(() => {
     async function loadArticle() {
@@ -29,26 +27,42 @@ export default function Article() {
 
   if (loading) {
     return (
-      <div className="article-container">
-        <div className="loading">Loading article...</div>
-      </div>
+      <>
+        <SEO title="Loading Article" />
+        <div className="article-container">
+          <div className="loading">Loading article...</div>
+        </div>
+      </>
     )
   }
 
   if (!article) {
     return (
-      <div className="article-container">
-        <div className="article-error">
-          <h1>Article Not Found</h1>
-          <p>The article you're looking for doesn't exist.</p>
-          <Link to="/" className="back-link">← Back to Home</Link>
+      <>
+        <SEO title="Article Not Found" description="The article you're looking for doesn't exist." />
+        <div className="article-container">
+          <div className="article-error">
+            <h1>Article Not Found</h1>
+            <p>The article you're looking for doesn't exist.</p>
+            <Link to="/" className="back-link">← Back to Home</Link>
+          </div>
         </div>
-      </div>
+      </>
     )
   }
 
   return (
-    <div className="article-container">
+    <>
+      <SEO 
+        title={article.title}
+        description={article.subtitle}
+        ogImage={article.coverImage}
+        ogUrl={`https://geniusdocs.blog/article/${article.slug}`}
+        type="article"
+        article={article}
+        keywords={[article.category, 'web development', 'programming', 'tutorial']}
+      />
+      <div className="article-container">
       <article className="article">
         <header className="article-header">
           <div className="article-meta">
@@ -108,5 +122,6 @@ export default function Article() {
         </footer>
       </article>
     </div>
+    </>
   )
 }

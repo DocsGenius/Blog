@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { getAllArticles } from '../utils/articleUtils'
 import Features from "../components/Features";
 import ArticlePreview from '../components/ArticlePreview'
+import SEO from '../components/SEO'
 import '../styles/home.css'
 import '../styles/article-preview.css'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -28,7 +29,14 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="home-container">
+    <>
+      <SEO 
+        title="Home"
+        description="Welcome to Genius Docs - Discover insights, tutorials, and best practices in modern web development"
+        ogUrl="https://geniusdocs.blog"
+        keywords={['genius docs', 'web development', 'programming tutorials', 'coding guides', 'tech articles']}
+      />
+      <div className="home-container">
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
@@ -74,5 +82,6 @@ export default function Home() {
       {/* Features Section */}
       <Features />
     </div>
+    </>
   )
 }

@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://geniusdocs.blog/sitemap.xml
+
+# Block development and build paths (these don't exist on deployed site anyway)
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /scripts/
+Disallow: /.git/
+Disallow: /*.json$
+Disallow: /*.js$
+
+# Note: Article content is served as rendered pages, not as raw markdown files
+# Google will crawl /article/[slug] URLs, not /src/articles/
