@@ -5,6 +5,7 @@ import './styles/article.css'
 import './themes/theme-variables.css'
 import { useCustomThemes } from './hooks/useCustomThemes'
 import { useLazyThemes } from './hooks/useLazyThemes'
+import { useDocumentTitle } from './hooks/useDocumentTitle'
 import Home from './components/Home'
 import ArticleList from './components/ArticleList'
 import Article from './components/Article'
@@ -16,6 +17,8 @@ import ThemeSelector from './components/ThemeSelector'
 
 
 function App() {
+  useDocumentTitle('Genius Docs')
+  
   const [currentTheme, setCurrentTheme] = useState(() => {
     return localStorage.getItem('selectedTheme') || 'light'
   })
