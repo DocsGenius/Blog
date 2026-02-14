@@ -17,11 +17,20 @@ export const getMarkdownComponents = (chartData) => ({
       }
 
       if (chartType === 'bar') {
+        const keys = Object.keys(data[0])
+        const xKey = keys[0]
+        const dataKeys = keys.slice(1)
+        const bars = dataKeys.map((key, index) => ({
+          dataKey: key,
+          fill: index === 0 ? 'var(--color-primary)' : 
+                index === 1 ? 'var(--color-accent)' : 
+                index === 2 ? 'var(--color-secondary)' : 'var(--color-text-secondary)'
+        }))
         return (
           <ThemeAwareBarChart 
             data={data} 
-            xKey={Object.keys(data[0])[0]} 
-            bars={[{ dataKey: Object.keys(data[0])[1], fill: 'var(--primary-color)' }]}
+            xKey={xKey} 
+            bars={bars}
           />
         );
       }

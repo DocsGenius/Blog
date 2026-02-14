@@ -9,6 +9,8 @@ import { useDocumentTitle } from './hooks/useDocumentTitle'
 import Home from './pages/Home'
 import ArticleList from './pages/ArticleList'
 import Article from './pages/Article'
+import CreateArticle from './pages/CreateArticle'
+import PreviewArticle from './pages/PreviewArticle'
 import Contact from './pages/Contact'
 import Footer from './components/Footer'
 import CustomThemePopup from './components/CustomThemePopup'
@@ -111,6 +113,7 @@ function App() {
             <div className="nav-menu">
               <Link to="/" className="nav-link">Home</Link>
               <Link to="/articles" className="nav-link">Articles</Link>
+              <Link to="/create-article" className="nav-link">Create Article</Link>
               <Link to="/contact" className="nav-link">Contact</Link>
             </div>
           </nav>
@@ -121,6 +124,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/articles" element={<ArticleList />} />
             <Route path="/article/:slug" element={<Article />} />
+            <Route path="/create-article" element={<CreateArticle />} />
+            <Route path="/preview" element={<PreviewArticle />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
