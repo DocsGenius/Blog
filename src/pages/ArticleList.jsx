@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { getAllArticles } from '../utils/articleUtils'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([])
   const [loading, setLoading] = useState(true)
+
+  useDocumentTitle('Articles - Genius Docs')
 
   useEffect(() => {
     async function loadArticles() {

@@ -6,10 +6,10 @@ import './themes/theme-variables.css'
 import { useCustomThemes } from './hooks/useCustomThemes'
 import { useLazyThemes } from './hooks/useLazyThemes'
 import { useDocumentTitle } from './hooks/useDocumentTitle'
-import Home from './components/Home'
-import ArticleList from './components/ArticleList'
-import Article from './components/Article'
-import Contact from './components/Contact'
+import Home from './pages/Home'
+import ArticleList from './pages/ArticleList'
+import Article from './pages/Article'
+import Contact from './pages/Contact'
 import Footer from './components/Footer'
 import CustomThemePopup from './components/CustomThemePopup'
 import ThemeSelector from './components/ThemeSelector'
@@ -17,7 +17,6 @@ import ThemeSelector from './components/ThemeSelector'
 
 
 function App() {
-  useDocumentTitle('Genius Docs')
   
   const [currentTheme, setCurrentTheme] = useState(() => {
     return localStorage.getItem('selectedTheme') || 'light'

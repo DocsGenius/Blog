@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
 import '../styles/contact.css'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 // EmailJS configuration (you'll need to replace these with your actual values)
 const EMAILJS_PUBLIC_KEY = 'niK5nB5EF9ninUqbl'
@@ -14,6 +15,7 @@ try {
 }
 
 export default function Contact() {
+  useDocumentTitle('Contact - Genius Docs')
   const [formData, setFormData] = useState({
     name: '',
     email: '',

@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { getAllArticles } from '../utils/articleUtils'
-import Features from './Features'
+import Features from "../components/Features";
 import '../styles/home.css'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 export default function Home() {
+  useDocumentTitle('Home - Genius Docs')
   const [latestArticles, setLatestArticles] = useState([])
   const [loading, setLoading] = useState(true)
 

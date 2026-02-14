@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { getArticleBySlug } from '../utils/articleUtils'
 import ReactMarkdown from 'react-markdown'
-import { getMarkdownComponents } from './MarkdownComponents'
+import { getMarkdownComponents } from '../components/MarkdownComponents'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 export default function Article() {
   const { slug } = useParams()
   const [article, setArticle] = useState(null)
   const [loading, setLoading] = useState(true)
+
+  useDocumentTitle(article?.title || ' - Genius Docs')
 
   useEffect(() => {
     async function loadArticle() {
