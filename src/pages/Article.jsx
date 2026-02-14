@@ -10,7 +10,7 @@ export default function Article() {
   const [article, setArticle] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  useDocumentTitle(article?.title || ' - Genius Docs')
+  useDocumentTitle(article?.title + ' - Genius Docs' || 'Genius Docs')
 
   useEffect(() => {
     async function loadArticle() {
