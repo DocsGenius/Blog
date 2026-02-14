@@ -296,13 +296,12 @@ monthly-sales:
                 <button 
                   className="back-link" 
                   onClick={() => { 
-                    if (confirm('Are you sure you want to go back to home? This will discard your current draft.')) { 
+                    if (confirm('Are you sure you want to discard your current draft?')) { 
                       clearDraft(); 
-                      navigate('/'); 
                     } 
                   }}
                 >
-                  ← Back to Home
+                  Discard Draft
                 </button>
                 <button className="download-button" onClick={handleDownload}>Download as Image</button>
                 <button className="preview-button" onClick={handlePreview}>Preview Article</button>
