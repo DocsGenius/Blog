@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { getAllArticles } from '../utils/articleUtils'
 import Features from "../components/Features";
+import ArticlePreview from '../components/ArticlePreview'
 import '../styles/home.css'
+import '../styles/article-preview.css'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 export default function Home() {
@@ -57,31 +59,7 @@ export default function Home() {
         ) : (
           <div className="articles-preview">
             {latestArticles.map((article) => (
-              <article key={article.id} className="article-preview-card">
-                <Link to={`/article/${article.slug}`} className="article-preview-link">
-                  {article.coverImage && (
-                    <div className="article-preview-image">
-                      <img src={article.coverImage} alt={article.title} />
-                    </div>
-                  )}
-                  
-                  <div className="article-preview-content">
-                    <div className="article-preview-meta">
-                      <div className="article-meta-row">
-                        <span className="article-category">{article.category}</span>
-                        <span className="article-date">{article.date}</span>
-                      </div>
-                    </div>
-                    
-                    <h3 className="article-preview-title">{article.title}</h3>
-                    <p className="article-preview-subtitle">{article.subtitle}</p>
-                    
-                    <div className="article-preview-footer">
-                      <span className="reading-time">{article.readingTime}</span>
-                    </div>
-                  </div>
-                </Link>
-              </article>
+              <ArticlePreview key={article.id} article={article} showAuthor={true} />
             ))}
           </div>
         )}
