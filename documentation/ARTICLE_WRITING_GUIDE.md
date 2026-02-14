@@ -125,7 +125,7 @@ chartData:
 - Ensure all image paths are correct
 - Check that authorId exists in `authorsData.js`
 
-## Example Article
+# Example Article
 
 ```markdown
 ---
