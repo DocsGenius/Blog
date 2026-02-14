@@ -1,12 +1,44 @@
-import { getAllArticles } from '../src/utils/articleUtils.js'
-import { writeFileSync } from 'fs'
+import { readFileSync, readdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
+import yaml from 'js-yaml'
 
 const SITE_URL = 'https://geniusdocs.blog'
 
-async function generateSitemap() {
+// Node.js compatible article loading (not using Vite's import.meta.glob)
+function loadArticlesNodeJS() {
+  const articlesDir = join(process.cwd(), 'src', 'articles')
+  const articles = []
+  
   try {
-    const articles = await getAllArticles()
+    const files = readdirSync(articlesDir).filter(file => file.endsWith('.md'))
+    
+    for (const file of files) {
+      const filePath = join(articlesDir, file)
+      const content = readFileSync(filePath, 'utf-8')
+      
+      // Parse frontmatter
+      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/)
+      if (frontmatterMatch) {
+        const frontmatter = yaml.load(frontmatterMatch[1])
+        const slug = file.replace('.md', '')
+        
+        articles.push({
+          ...frontmatter,
+          slug,
+          id: slug
+        })
+      }
+    }
+  } catch (error) {
+    console.error('Error loading articles:', error)
+  }
+  
+  return articles
+}
+
+function generateSitemap() {
+  try {
+    const articles = loadArticlesNodeJS()
     const currentDate = new Date().toISOString()
     
     const staticPages = [
