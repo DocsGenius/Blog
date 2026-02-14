@@ -208,7 +208,7 @@ section p {
   color: var(--color-primary-text);
   border: 2px solid var(--color-primary-text);
   
-  max-width: 200px;
+  max-width: 250px;
   margin: 0 auto;
   width: 100%;
   padding: 1rem 1.5rem;
@@ -230,6 +230,7 @@ section p {
   margin: 0;
   font-weight: 600;
   color: inherit;
+  font-size: 1.5rem;
 }
 
 .theme-item {
