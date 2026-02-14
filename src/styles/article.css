@@ -268,7 +268,10 @@
 }
 
 .article-actions {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .back-link {
@@ -276,17 +279,19 @@
   align-items: center;
   gap: 0.5rem;
   color: var(--color-text);
+  background: var(--color-background);
   text-decoration: none;
   font-weight: 500;
   padding: 0.75rem 1.5rem;
-  border: 2px solid var(--color-primary);
+  border: 2px solid var(--color-accent);
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .back-link:hover {
-  background: var(--color-primary);
-  color: white;
+  background: var(--color-accent);
+  color: var(--color-text);
+  border-color: var(--color-surface);
 }
 
 .article-title-input,
@@ -409,56 +414,59 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--color-primary);
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--color-primary);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  margin-left: 1rem;
-}
-
-.preview-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--color-accent);
-  color: white;
+  background: transparent;
+  color: var(--color-text);
   text-decoration: none;
   font-weight: 500;
   padding: 0.75rem 1.5rem;
   border: 2px solid var(--color-accent);
   border-radius: 8px;
   transition: all 0.2s ease;
-  margin-left: 1rem;
 }
 
-.draft-saved {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  margin-left: 1rem;
+.save-button:hover {
+  background: var(--color-accent);
+  color: var(--color-text);
+  border-color: var(--color-accent);
 }
 
-.clear-draft-button {
+.preview-button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--color-border);
+  background: transparent;
   color: var(--color-text);
   text-decoration: none;
   font-weight: 500;
-  padding: 0.5rem 1rem;
-  border: 2px solid var(--color-border);
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--color-accent);
   border-radius: 8px;
   transition: all 0.2s ease;
-  margin-left: 1rem;
 }
 
-.clear-draft-button:hover {
-  background: var(--color-text);
-  color: var(--color-background);
+.preview-button:hover {
+  background: var(--color-accent);
+  color: var(--color-text);
+  border-color: var(--color-surface);
+}
+
+.download-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.download-button:hover {
+  background: var(--color-accent);
+  color: var(--color-text);
 }
 
 /* New input styles */
