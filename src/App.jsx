@@ -32,7 +32,30 @@ function App() {
     const theme = themesData?.find(t => t.name === themeName) || 
                  customThemes.find(t => t.name === themeName)
     
-    if (!theme) return
+    if (!theme) {
+      // Fallback to 'light' theme if requested theme doesn't exist
+      console.warn(`Theme '${themeName}' not found, falling back to 'light' theme`)
+      const fallbackTheme = themesData?.find(t => t.name === 'light')
+      if (!fallbackTheme) {
+        console.error('Light theme not found, cannot apply fallback')
+        return
+      }
+      
+      const root = document.documentElement
+      root.classList.add('theme-switching')
+      
+      Object.entries(fallbackTheme.colors).forEach(([key, value]) => {
+        root.style.setProperty(`--color-${key}`, value)
+      })
+      
+      setCurrentTheme('light')
+      localStorage.setItem('selectedTheme', 'light')
+      
+      setTimeout(() => {
+        root.classList.remove('theme-switching')
+      }, 300)
+      return
+    }
     
     const root = document.documentElement
     
@@ -57,9 +80,20 @@ function App() {
   useEffect(() => {
     if (!themesLoading && themesData?.length > 0) {
       const savedTheme = localStorage.getItem('selectedTheme') || 'light'
-      switchTheme(savedTheme)
+      
+      // Check if saved theme exists before applying
+      const themeExists = themesData?.some(t => t.name === savedTheme) || 
+                          customThemes.some(t => t.name === savedTheme)
+      
+      if (!themeExists && savedTheme !== 'light') {
+        console.warn(`Saved theme '${savedTheme}' not found, falling back to 'light' theme`)
+        localStorage.setItem('selectedTheme', 'light')
+        switchTheme('light')
+      } else {
+        switchTheme(savedTheme)
+      }
     }
-  }, [switchTheme, themesLoading, themesData])
+  }, [switchTheme, themesLoading, themesData, customThemes])
 
   return (
     <Router>

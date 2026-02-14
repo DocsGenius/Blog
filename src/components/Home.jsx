@@ -65,8 +65,10 @@ export default function Home() {
                   
                   <div className="article-preview-content">
                     <div className="article-preview-meta">
-                      <span className="article-category">{article.category}</span>
-                      <span className="article-date">{article.date}</span>
+                      <div className="article-meta-row">
+                        <span className="article-category">{article.category}</span>
+                        <span className="article-date">{article.date}</span>
+                      </div>
                     </div>
                     
                     <h3 className="article-preview-title">{article.title}</h3>

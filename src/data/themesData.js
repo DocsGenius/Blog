@@ -5,7 +5,7 @@ const themesData = [
     "colors": {
       "primary": "#111111",
       "secondary": "#555555",
-      "accent": "#2979ff",
+      "accent": "#29bbffff",
       "surface": "#ffffff",
       "background": "#fafafa",
       "text": "#222222",
@@ -19,7 +19,7 @@ const themesData = [
     "colors": {
       "primary": "#e0e0e0",
       "secondary": "#9e9e9e",
-      "accent": "#64b5f6",
+      "accent": "#e229ffff",
       "surface": "#1e1e1e",
       "background": "#121212",
       "text": "#f5f5f5",
@@ -33,7 +33,7 @@ const themesData = [
     "colors": {
       "primary": "#0b0f2a",
       "secondary": "#1c2541",
-      "accent": "#3a86ff",
+      "accent": "#e229ffff",
       "surface": "#121629",
       "background": "#070b1a",
       "text": "#e6ecff",
@@ -47,7 +47,7 @@ const themesData = [
     "colors": {
       "primary": "#005f73",
       "secondary": "#0a9396",
-      "accent": "#94d2bd",
+      "accent": "#0b7bcba0",
       "surface": "#e0fbfc",
       "background": "#edf6f9",
       "text": "#003845",
@@ -61,7 +61,7 @@ const themesData = [
     "colors": {
       "primary": "#1b4332",
       "secondary": "#2d6a4f",
-      "accent": "#95d5b2",
+      "accent": "#7ae8acea",
       "surface": "#d8f3dc",
       "background": "#f1faee",
       "text": "#081c15",
@@ -75,7 +75,7 @@ const themesData = [
     "colors": {
       "primary": "#d62828",
       "secondary": "#f77f00",
-      "accent": "#fcbf49",
+      "accent": "#ff6600ff",
       "surface": "#fff3e0",
       "background": "#ffe5d9",
       "text": "#6a040f",
@@ -89,7 +89,7 @@ const themesData = [
     "colors": {
       "primary": "#dff6ff",
       "secondary": "#b8e4f9",
-      "accent": "#5dade2",
+      "accent": "#0099ffff",
       "surface": "#f4fbff",
       "background": "#eaf7ff",
       "text": "#0f3057",
@@ -103,7 +103,7 @@ const themesData = [
     "colors": {
       "primary": "#ff4500",
       "secondary": "#ff6347",
-      "accent": "#ffa500",
+      "accent": "#c82b00ff",
       "surface": "#fff5ee",
       "background": "#ffe4e1",
       "text": "#8b0000",
@@ -117,7 +117,7 @@ const themesData = [
     "colors": {
       "primary": "#50c878",
       "secondary": "#3cb371",
-      "accent": "#00ff7f",
+      "accent": "#00c9abff",
       "surface": "#f0fff0",
       "background": "#f5fffa",
       "text": "#006400",
@@ -140,26 +140,12 @@ const themesData = [
     }
   },
   {
-    "name": "solar",
-    "displayName": "Solar",
-    "colors": {
-      "primary": "#ffa500",
-      "secondary": "#ff8c00",
-      "accent": "#ffff00",
-      "surface": "#fff8dc",
-      "background": "#fffacd",
-      "text": "#ff8c00",
-      "border": "#ffd700",
-      "highlight": "#ffffe0"
-    }
-  },
-  {
     "name": "matrix",
     "displayName": "Matrix",
     "colors": {
       "primary": "#00ff00",
       "secondary": "#32cd32",
-      "accent": "#7fff00",
+      "accent": "#ffffffff",
       "surface": "#001100",
       "background": "#000000",
       "text": "#00ff00",
@@ -201,7 +187,7 @@ const themesData = [
     "colors": {
       "primary": "#c9184a",
       "secondary": "#ff4d6d",
-      "accent": "#ff758f",
+      "accent": "#ff0000ff",
       "surface": "#fff0f3",
       "background": "#ffe5ec",
       "text": "#590d22",
@@ -243,7 +229,7 @@ const themesData = [
     "colors": {
       "primary": "#2ec4b6",
       "secondary": "#52d1c6",
-      "accent": "#cbf3f0",
+      "accent": "#58e820ff",
       "surface": "#f0fdfa",
       "background": "#e6fffa",
       "text": "#065f46",
@@ -257,26 +243,12 @@ const themesData = [
     "colors": {
       "primary": "#b8860b",
       "secondary": "#daa520",
-      "accent": "#ffd700",
+      "accent": "#c3af00ff",
       "surface": "#fffbea",
       "background": "#fff8dc",
       "text": "#7c5c00",
       "border": "#f1c40f",
       "highlight": "#ffec99"
-    }
-  },
-  {
-    "name": "ice",
-    "displayName": "Ice",
-    "colors": {
-      "primary": "#a8dadc",
-      "secondary": "#457b9d",
-      "accent": "#f1faee",
-      "surface": "#f0faff",
-      "background": "#edf6f9",
-      "text": "#1d3557",
-      "border": "#bde0fe",
-      "highlight": "#caf0f8"
     }
   },
   {
