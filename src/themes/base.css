@@ -13,36 +13,6 @@
   --color-border: #e0e0e0;
   --color-highlight: #ffff00;
   
-  /* Semantic mappings using the standardized colors */
-  --color-primary-bg: var(--color-primary);
-  --color-secondary-bg: var(--color-secondary);
-  --color-accent-bg: var(--color-accent);
-  
-  --color-primary-text: var(--color-text);
-  --color-text-secondary: var(--color-secondary);
-  --color-accent-text: var(--color-surface);
-  
-  --color-surface-bg: var(--color-surface);
-  --color-background-bg: var(--color-background);
-  
-  --color-border-light: var(--color-border);
-  --color-border-dark: var(--color-secondary);
-  
-  --color-highlight-bg: var(--color-highlight);
-  --color-highlight-text: var(--color-text);
-  
-  /* State colors derived from main palette */
-  --color-success: var(--color-accent);
-  --color-warning: var(--color-highlight);
-  --color-error: #ff4444;
-  --color-info: var(--color-primary);
-  
-  /* Interactive states */
-  --color-hover: var(--color-secondary);
-  --color-active: var(--color-accent);
-  --color-focus: var(--color-accent);
-  --color-disabled: var(--color-border);
-  
   /* Shadow and overlay colors */
   --color-shadow: rgba(0, 0, 0, 0.1);
   --color-overlay: rgba(0, 0, 0, 0.5);
@@ -50,101 +20,67 @@
 
 /* Base theme styles that work with any color combination */
 body {
-  background-color: var(--color-background-bg);
-  color: var(--color-primary-text);
+  background-color: var(--color-background);
+  color: var(--color-text);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .surface {
-  background-color: var(--color-surface-bg);
-  border: 1px solid var(--color-border-light);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
 }
 
 .primary {
-  background-color: var(--color-primary-bg);
-  color: var(--color-accent-text);
+  background-color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .secondary {
-  background-color: var(--color-secondary-bg);
-  color: var(--color-surface-bg);
+  background-color: var(--color-secondary);
+  color: var(--color-surface);
 }
 
 .accent {
-  background-color: var(--color-accent-bg);
-  color: var(--color-accent-text);
+  background-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .highlight {
-  background-color: var(--color-highlight-bg);
-  color: var(--color-highlight-text);
+  background-color: var(--color-highlight);
+  color: var(--color-text);
 }
 
 /* Interactive elements */
 button {
-  background-color: var(--color-primary-bg);
-  color: var(--color-accent-text);
-  border: 1px solid var(--color-border-light);
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
   transition: all 0.2s ease;
 }
 
 button:hover {
-  background-color: var(--color-hover);
-  border-color: var(--color-border-dark);
-}
-
-button:focus {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-}
-
-button:active {
-  background-color: var(--color-active);
+  background-color: var(--color-highlight);
+  border-color: var(--color-primary);
 }
 
 button:disabled {
-  background-color: var(--color-disabled);
-  color: var(--color-secondary);
+  opacity:0.5;
   cursor: not-allowed;
 }
 
 /* Links */
 a {
-  color: var(--color-accent-bg);
+  color: var(--color-accent);
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--color-hover);
   text-decoration: underline;
 }
 
 /* Form elements */
 input, textarea, select {
-  background-color: var(--color-surface-bg);
-  color: var(--color-primary-text);
-  border: 1px solid var(--color-border-light);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-text);
 }
-
-input:focus, textarea:focus, select:focus {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  border-color: var(--color-focus);
-}
-
-/* Utility classes */
-.text-primary { color: var(--color-primary-text); }
-.text-secondary { color: var(--color-text-secondary); }
-.text-accent { color: var(--color-accent-bg); }
-.text-highlight { color: var(--color-highlight-bg); }
-
-.bg-primary { background-color: var(--color-primary-bg); }
-.bg-secondary { background-color: var(--color-secondary-bg); }
-.bg-accent { background-color: var(--color-accent-bg); }
-.bg-surface { background-color: var(--color-surface-bg); }
-.bg-background { background-color: var(--color-background-bg); }
-.bg-highlight { background-color: var(--color-highlight-bg); }
-
-.border-primary { border-color: var(--color-border-light); }
-.border-secondary { border-color: var(--color-border-dark); }
-.border-accent { border-color: var(--color-accent-bg); }
