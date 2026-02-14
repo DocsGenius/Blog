@@ -29,7 +29,7 @@ const ThemeSelector = ({
         setTimeout(() => {
           setShowButton(true)
         }, 200)
-      }, 5000)
+      }, 3000)
     }
 
     return () => {
