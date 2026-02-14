@@ -360,7 +360,8 @@
 .article-figure figcaption {
   margin-top: 0.75rem;
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text);
+  opacity: 0.8;
   font-style: italic;
 }
 

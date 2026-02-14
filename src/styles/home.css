@@ -255,12 +255,12 @@
 
 .btn-outline {
   background-color: transparent;
-  color: var(--color-primary-text);
-  border: 2px solid var(--color-primary-text);
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
 }
 
 .btn-outline:hover {
-  background-color: var(--color-primary-text);
+  background-color: var(--color-text);
   color: var(--color-surface);
   border-color: var(--color-surface);
   transform: translateY(-1px);
