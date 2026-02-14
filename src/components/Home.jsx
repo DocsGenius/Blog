@@ -33,10 +33,10 @@ export default function Home() {
             Discover insights, tutorials, and best practices in modern web development
           </p>
           <div className="hero-actions">
-            <Link to="/articles" className="btn btn-primary">
+            <Link to="/articles" className="btn browse-btn">
               Browse Articles
             </Link>
-            <a href="#about" className="btn btn-secondary">
+            <a href="#about" className="btn learn-btn">
               Learn More
             </a>
           </div>
