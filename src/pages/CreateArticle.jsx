@@ -27,6 +27,7 @@ export default function CreateArticle() {
   const [readingTime, setReadingTime] = useState('')
   const [chartDataYaml, setChartDataYaml] = useState('')
   const [loading, setLoading] = useState(false)
+  const [extraSettingsExpanded, setExtraSettingsExpanded] = useState(false)
 
   const saveData = () => {
     const processedContent = processChartPlaceholders(content)
@@ -279,27 +280,40 @@ export default function CreateArticle() {
                   />
                 </div>
               </div>
-              <input
-                type="url"
-                placeholder="Author LinkedIn URL (optional)"
-                value={authorLinkedin}
-                onChange={(e) => setAuthorLinkedin(e.target.value)}
-                className="author-linkedin-input"
-              />
-              <input
-                type="url"
-                placeholder="Author Avatar URL (optional)"
-                value={authorAvatar}
-                onChange={(e) => setAuthorAvatar(e.target.value)}
-                className="author-avatar-input"
-              />
-              <input
-                type="text"
-                placeholder="Cover Image URL"
-                value={coverImage}
-                onChange={(e) => setCoverImage(e.target.value)}
-                className="cover-image-input"
-              />
+              <div className="extra-settings-section">
+                <button
+                  type="button"
+                  className="extra-settings-toggle"
+                  onClick={() => setExtraSettingsExpanded(!extraSettingsExpanded)}
+                >
+                  {extraSettingsExpanded ? '▼' : '▶'} Extra Settings
+                </button>
+                {extraSettingsExpanded && (
+                  <div className="extra-settings-content">
+                    <input
+                      type="url"
+                      placeholder="Author LinkedIn URL (optional)"
+                      value={authorLinkedin}
+                      onChange={(e) => setAuthorLinkedin(e.target.value)}
+                      className="author-linkedin-input"
+                    />
+                    <input
+                      type="url"
+                      placeholder="Author Avatar URL (optional)"
+                      value={authorAvatar}
+                      onChange={(e) => setAuthorAvatar(e.target.value)}
+                      className="author-avatar-input"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Cover Image URL"
+                      value={coverImage}
+                      onChange={(e) => setCoverImage(e.target.value)}
+                      className="cover-image-input"
+                    />
+                  </div>
+                )}
+              </div>
               <input
                 type="text"
                 placeholder="Tags (comma-separated, e.g., Technology, Writing)"

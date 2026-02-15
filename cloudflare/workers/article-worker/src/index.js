@@ -495,7 +495,7 @@ async function handleGetArticle(slug, env) {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'public, max-age=3600',
+        'Cache-Control': 'public, max-age=10',
       },
     });
   } catch (error) {
