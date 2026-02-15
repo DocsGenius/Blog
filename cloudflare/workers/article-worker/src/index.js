@@ -1,6 +1,87 @@
 // article-worker.js
+
+// Configuration
+const CONFIG = {
+  MAX_ARTICLE_SIZE: 1024 * 1024, // 1MB default
+  RATE_LIMIT_WINDOW_MS: 60 * 1000, // 1 minute
+  RATE_LIMIT_MAX_REQUESTS: 4, // requests per window per IP
+};
+
+// Rate limiter
+const rateLimits = new Map();
+
+function checkRateLimit(ip, env) {
+  const now = Date.now();
+  const windowMs = CONFIG.RATE_LIMIT_WINDOW_MS;
+  const maxRequests = CONFIG.RATE_LIMIT_MAX_REQUESTS;
+  
+  // Clean up old entries
+  if (!rateLimits.has('cleanup') || now - rateLimits.get('cleanup') > 60000) {
+    for (const [key, timestamps] of rateLimits.entries()) {
+      const validTimestamps = timestamps.filter(t => now - t < windowMs);
+      if (validTimestamps.length === 0) {
+        rateLimits.delete(key);
+      } else {
+        rateLimits.set(key, validTimestamps);
+      }
+    }
+    rateLimits.set('cleanup', now);
+  }
+  
+  const requests = rateLimits.get(ip) || [];
+  const recentRequests = requests.filter(t => now - t < windowMs);
+  
+  if (recentRequests.length >= maxRequests) {
+    return false;
+  }
+  
+  recentRequests.push(now);
+  rateLimits.set(ip, recentRequests);
+  return true;
+}
+
+function validateApiKey(request, env) {
+  const apiKey = request.headers.get('X-API-Key');
+  const validApiKey = env.API_KEY;
+  
+  // Skip API key check if not configured (useful for development)
+  if (!validApiKey) {
+    console.warn('API_KEY not set in environment - skipping authentication');
+    return true;
+  }
+  
+  return apiKey && apiKey === validApiKey;
+}
+
 export default {
   async fetch(request, env) {
+    // Update config with environment variables if available
+    if (env.MAX_ARTICLE_SIZE) {
+      CONFIG.MAX_ARTICLE_SIZE = parseInt(env.MAX_ARTICLE_SIZE);
+    }
+    if (env.RATE_LIMIT_MAX_REQUESTS) {
+      CONFIG.RATE_LIMIT_MAX_REQUESTS = parseInt(env.RATE_LIMIT_MAX_REQUESTS);
+    }
+    
+    // Get client IP from Cloudflare header
+    const clientIP = request.headers.get('CF-Connecting-IP') || 
+                     request.headers.get('X-Forwarded-For') || 
+                     'unknown';
+    
+    // Apply rate limiting to all requests
+    if (!checkRateLimit(clientIP, env)) {
+      return new Response(JSON.stringify({ 
+        error: 'Rate limit exceeded. Please try again later.' 
+      }), {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Retry-After': '60',
+        },
+      });
+    }
+    
     // Handle CORS preflight
     if (request.method === 'OPTIONS') {
       return new Response(null, {
@@ -8,8 +89,8 @@ export default {
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Max-Age': '86400', // 24 hours
+          'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
+          'Access-Control-Max-Age': '86400',
         },
       });
     }
@@ -17,17 +98,29 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // POST /api/articles - Submit new article
+    // POST /api/articles - Submit new article (requires authentication)
     if (request.method === 'POST' && path === '/api/articles') {
+      // Check API key for article submissions
+      if (!validateApiKey(request, env)) {
+        return new Response(JSON.stringify({ 
+          error: 'Unauthorized - Invalid or missing API key' 
+        }), {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        });
+      }
+      
       return handleArticleSubmission(request, env);
     }
     
-    // GET /api/articles - List all articles
+    // GET endpoints - no authentication required
     if (request.method === 'GET' && path === '/api/articles') {
       return handleListArticles(env);
     }
     
-    // GET /api/articles/:slug - Get specific article
     if (request.method === 'GET' && path.startsWith('/api/articles/')) {
       const slug = path.replace('/api/articles/', '');
       return handleGetArticle(slug, env);
@@ -39,7 +132,35 @@ export default {
 
 async function handleArticleSubmission(request, env) {
   try {
+    // Check content length header first
+    const contentLength = request.headers.get('Content-Length');
+    if (contentLength && parseInt(contentLength) > CONFIG.MAX_ARTICLE_SIZE) {
+      return new Response(JSON.stringify({ 
+        error: `Article too large. Maximum size is ${CONFIG.MAX_ARTICLE_SIZE / 1024 / 1024}MB` 
+      }), {
+        status: 413, // Payload Too Large
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+    }
+    
     const articleData = await request.json();
+    
+    // Additional size check for the parsed JSON
+    const articleSize = new TextEncoder().encode(JSON.stringify(articleData)).length;
+    if (articleSize > CONFIG.MAX_ARTICLE_SIZE) {
+      return new Response(JSON.stringify({ 
+        error: `Article too large. Maximum size is ${CONFIG.MAX_ARTICLE_SIZE / 1024 / 1024}MB` 
+      }), {
+        status: 413,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+    }
     
     // Validate required fields
     const requiredFields = ['title', 'subtitle', 'content', 'author', 'category', 'date'];
@@ -49,7 +170,10 @@ async function handleArticleSubmission(request, env) {
           error: `Missing required field: ${field}` 
         }), {
           status: 400,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
         });
       }
     }
@@ -62,12 +186,13 @@ async function handleArticleSubmission(request, env) {
       ...articleData,
       slug,
       id: slug,
+      status: 'pending', // Add status for moderation
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
-    // Store in R2
-    const key = `articles/${slug}.json`;
+    // Store in R2 (use pending folder for unapproved articles)
+    const key = `articles/pending/${slug}.json`;
     await env.ARTICLE_BUCKET.put(key, JSON.stringify(article, null, 2), {
       httpMetadata: { contentType: 'application/json' },
       customMetadata: {
@@ -75,17 +200,18 @@ async function handleArticleSubmission(request, env) {
         author: article.author,
         category: article.category,
         date: article.date,
+        status: article.status,
         createdAt: article.createdAt,
       },
     });
 
-    // Also store a reference in the article list index
-    await updateArticleIndex(env, article);
+    // Don't update the live index yet - article needs approval
 
     return new Response(JSON.stringify({ 
       success: true, 
       slug,
-      message: 'Article submitted successfully' 
+      status: 'pending',
+      message: 'Article submitted successfully and is pending review' 
     }), {
       status: 201,
       headers: {
@@ -109,29 +235,28 @@ async function handleArticleSubmission(request, env) {
 
 async function handleListArticles(env) {
   try {
-    // Try to get from cache first
-    const cache = await env.ARTICLE_BUCKET.get('index/articles.json');
+    // Only return approved articles from live index
+    const cache = await env.ARTICLE_BUCKET.get('index/live-articles.json');
     if (cache) {
       const articles = JSON.parse(await cache.text());
       return new Response(JSON.stringify(articles), {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-          'Cache-Control': 'public, max-age=300', // Cache for 5 minutes
+          'Cache-Control': 'public, max-age=300',
         },
       });
     }
 
-    // If no cache, list all articles
+    // If no cache, list only approved articles
     const articles = [];
-    const listed = await env.ARTICLE_BUCKET.list({ prefix: 'articles/' });
+    const listed = await env.ARTICLE_BUCKET.list({ prefix: 'articles/live/' });
     
     for (const object of listed.objects) {
-      if (object.key.endsWith('.json') && object.key !== 'index/articles.json') {
+      if (object.key.endsWith('.json')) {
         const articleObj = await env.ARTICLE_BUCKET.get(object.key);
         if (articleObj) {
           const article = JSON.parse(await articleObj.text());
-          // Remove content for list view to reduce size
           const { content, ...metadata } = article;
           articles.push(metadata);
         }
@@ -141,8 +266,8 @@ async function handleListArticles(env) {
     // Sort by date (newest first)
     articles.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    // Cache the index
-    await env.ARTICLE_BUCKET.put('index/articles.json', JSON.stringify(articles, null, 2), {
+    // Cache the live index
+    await env.ARTICLE_BUCKET.put('index/live-articles.json', JSON.stringify(articles, null, 2), {
       httpMetadata: { contentType: 'application/json' },
     });
 
@@ -169,7 +294,8 @@ async function handleListArticles(env) {
 
 async function handleGetArticle(slug, env) {
   try {
-    const key = `articles/${slug}.json`;
+    // Only serve approved articles
+    const key = `articles/live/${slug}.json`;
     const object = await env.ARTICLE_BUCKET.get(key);
     
     if (!object) {
@@ -188,7 +314,7 @@ async function handleGetArticle(slug, env) {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+        'Cache-Control': 'public, max-age=3600',
       },
     });
   } catch (error) {

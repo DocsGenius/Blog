@@ -6,11 +6,13 @@ compatibility_date = "2024-01-01"
 binding = "ARTICLE_BUCKET"
 bucket_name = "genius-docs-articles"
 
+[vars]
+API_KEY = "your-secure-api-key-here"
+MAX_ARTICLE_SIZE = "1048576"  # 1MB in bytes
+RATE_LIMIT_MAX_REQUESTS = "10"
+
 [env.production]
-vars = { ENVIRONMENT = "production" }
+vars = { ENVIRONMENT = "production", API_KEY = "your-production-api-key" }
 
 [env.staging]
-vars = { ENVIRONMENT = "staging" }
-
-[env.preview]
-vars = { ENVIRONMENT = "preview" }
+vars = { ENVIRONMENT = "staging", API_KEY = "your-staging-api-key" }
