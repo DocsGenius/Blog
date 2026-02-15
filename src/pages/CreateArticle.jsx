@@ -24,6 +24,7 @@ export default function CreateArticle() {
   const [coverImage, setCoverImage] = useState('')
   const [date, setDate] = useState(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }))
   const [authorAvatar, setAuthorAvatar] = useState('')
+  const [authorWebsite, setAuthorWebsite] = useState('')
   const [readingTime, setReadingTime] = useState('')
   const [chartDataYaml, setChartDataYaml] = useState('')
   const [loading, setLoading] = useState(false)
@@ -37,6 +38,7 @@ export default function CreateArticle() {
       content: processedContent,
       author,
       authorAvatar,
+      authorWebsite,
       authorLinkedin,
       category,
       tags,
@@ -59,6 +61,7 @@ export default function CreateArticle() {
         setContent(parsed.content || '')
         setAuthor(parsed.author || '')
         setAuthorAvatar(parsed.authorAvatar || '')
+        setAuthorWebsite(parsed.authorWebsite || '')
         setAuthorLinkedin(parsed.authorLinkedin || '')
         setCategory(parsed.category || '')
         setTags(parsed.tags || '')
@@ -80,6 +83,7 @@ export default function CreateArticle() {
     setContent('')
     setAuthor('')
     setAuthorAvatar('')
+    setAuthorWebsite('')
     setAuthorLinkedin('')
     setCategory('')
     setTags('')
@@ -154,6 +158,7 @@ export default function CreateArticle() {
       content: processedContent || 'No content written yet.',
       author: author || 'Anonymous',
       authorAvatar: authorAvatar || '/authors/default.png', // Default avatar
+      authorWebsite: authorWebsite || null,
       authorBio: 'Author bio not provided',
       authorLinkedin: authorLinkedin || null,
       category: category || 'Uncategorized',
@@ -181,6 +186,7 @@ export default function CreateArticle() {
       content: processedContent || 'No content written yet.',
       author: author || 'Anonymous',
       authorAvatar: authorAvatar || '/authors/default.png',
+      authorWebsite: authorWebsite || null,
       authorBio: 'Author bio not provided',
       authorLinkedin: authorLinkedin || null,
       category: category || 'Uncategorized',
@@ -296,6 +302,13 @@ export default function CreateArticle() {
                       value={authorLinkedin}
                       onChange={(e) => setAuthorLinkedin(e.target.value)}
                       className="author-linkedin-input"
+                    />
+                    <input
+                      type="url"
+                      placeholder="Author Website URL (optional)"
+                      value={authorWebsite}
+                      onChange={(e) => setAuthorWebsite(e.target.value)}
+                      className="author-website-input"
                     />
                     <input
                       type="url"
