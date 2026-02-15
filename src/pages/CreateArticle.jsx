@@ -203,7 +203,7 @@ export default function CreateArticle() {
       const result = await response.json();
 
       if (response.ok) {
-        alert(`Article submitted successfully! Slug: ${result.slug}`);
+        alert(`Article submitted successfully, now in manual review! Slug: ${result.slug}`);
         // Optionally clear the form
         if (confirm('Clear the form?')) {
           clearDraft();
