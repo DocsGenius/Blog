@@ -327,7 +327,8 @@
   margin-bottom: 0.25rem;
 }
 
-.author-linkedin-input {
+.author-linkedin-input,
+.author-avatar-input {
   width: 100%;
   margin-top: 1rem;
   padding: 0.75rem;
@@ -490,6 +491,7 @@
 .date-input:focus,
 .reading-time-input:focus,
 .cover-image-input:focus,
+.author-avatar-input:focus,
 .tags-input:focus {
   outline: none;
   border-color: var(--color-primary);

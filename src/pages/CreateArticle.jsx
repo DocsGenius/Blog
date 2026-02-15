@@ -23,11 +23,10 @@ export default function CreateArticle() {
   const [tags, setTags] = useState('')
   const [coverImage, setCoverImage] = useState('')
   const [date, setDate] = useState(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }))
+  const [authorAvatar, setAuthorAvatar] = useState('')
   const [readingTime, setReadingTime] = useState('')
   const [chartDataYaml, setChartDataYaml] = useState('')
   const [loading, setLoading] = useState(false)
-
-  useDocumentTitle('Create Article - Genius Docs')
 
   const saveData = () => {
     const processedContent = processChartPlaceholders(content)
@@ -36,6 +35,7 @@ export default function CreateArticle() {
       subtitle,
       content: processedContent,
       author,
+      authorAvatar,
       authorLinkedin,
       category,
       tags,
@@ -57,6 +57,7 @@ export default function CreateArticle() {
         setSubtitle(parsed.subtitle || '')
         setContent(parsed.content || '')
         setAuthor(parsed.author || '')
+        setAuthorAvatar(parsed.authorAvatar || '')
         setAuthorLinkedin(parsed.authorLinkedin || '')
         setCategory(parsed.category || '')
         setTags(parsed.tags || '')
@@ -77,6 +78,7 @@ export default function CreateArticle() {
     setSubtitle('')
     setContent('')
     setAuthor('')
+    setAuthorAvatar('')
     setAuthorLinkedin('')
     setCategory('')
     setTags('')
@@ -121,7 +123,7 @@ export default function CreateArticle() {
       subtitle: subtitle || 'No subtitle provided',
       content: processedContent || 'No content written yet.',
       author: author || 'Anonymous',
-      authorAvatar: '/authors/default.png',
+      authorAvatar: authorAvatar || '/authors/default.png',
       authorBio: 'Author bio not provided',
       authorLinkedin: authorLinkedin || null,
       category: category || 'Uncategorized',
@@ -150,7 +152,7 @@ export default function CreateArticle() {
       subtitle: subtitle || 'No subtitle provided',
       content: processedContent || 'No content written yet.',
       author: author || 'Anonymous',
-      authorAvatar: '/authors/default.png', // Default avatar
+      authorAvatar: authorAvatar || '/authors/default.png', // Default avatar
       authorBio: 'Author bio not provided',
       authorLinkedin: authorLinkedin || null,
       category: category || 'Uncategorized',
@@ -177,7 +179,7 @@ export default function CreateArticle() {
       subtitle: subtitle || 'No subtitle provided',
       content: processedContent || 'No content written yet.',
       author: author || 'Anonymous',
-      authorAvatar: '/authors/default.png',
+      authorAvatar: authorAvatar || '/authors/default.png',
       authorBio: 'Author bio not provided',
       authorLinkedin: authorLinkedin || null,
       category: category || 'Uncategorized',
@@ -283,6 +285,13 @@ export default function CreateArticle() {
                 value={authorLinkedin}
                 onChange={(e) => setAuthorLinkedin(e.target.value)}
                 className="author-linkedin-input"
+              />
+              <input
+                type="url"
+                placeholder="Author Avatar URL (optional)"
+                value={authorAvatar}
+                onChange={(e) => setAuthorAvatar(e.target.value)}
+                className="author-avatar-input"
               />
               <input
                 type="text"
