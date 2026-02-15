@@ -40,7 +40,7 @@ Above is an example of a bar chart, which is created the exact same way as the p
 
 ## A glance into the future
 
-These features aren't just for the inside group of writers at Genius Docs, but for all of you!  I'm actively creating a CloudFlare Worker to host **YOUR** article submissions!!! Until then, you can use the Create Article page to create your articles, and then use the download to save the formatted article as a PNG!!!
+These features aren't just for the inside group of writers at Genius Docs, but for all of you!  I'm actively creating a CloudFlare Worker to host **YOUR** article submissions!!! Until then, you can use the Create Article page to create your articles, and then use the download button to save the formatted article as a PNG!!!
 
 ```js
 FreeInfrastructure ? signMeUp() : nah();
