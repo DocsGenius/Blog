@@ -9,7 +9,8 @@ bucket_name = "genius-docs-articles"
 [vars]
 API_KEY = "your-secure-api-key-here"
 MAX_ARTICLE_SIZE = "1048576"  # 1MB in bytes
-RATE_LIMIT_MAX_REQUESTS = "10"
+RATE_LIMIT_MAX_REQUESTS = "4"
+RATE_LIMIT_WINDOW_MS = "60000"  # 1 minute in milliseconds
 
 [env.production]
 vars = { ENVIRONMENT = "production", API_KEY = "your-production-api-key" }

@@ -1,6 +1,6 @@
 // article-worker.js
 
-// Configuration
+// FALLBACK Configuration
 const CONFIG = {
   MAX_ARTICLE_SIZE: 1024 * 1024, // 1MB default
   RATE_LIMIT_WINDOW_MS: 60 * 1000, // 1 minute
@@ -61,6 +61,9 @@ export default {
     }
     if (env.RATE_LIMIT_MAX_REQUESTS) {
       CONFIG.RATE_LIMIT_MAX_REQUESTS = parseInt(env.RATE_LIMIT_MAX_REQUESTS);
+    }
+    if (env.RATE_LIMIT_WINDOW_MS) {
+      CONFIG.RATE_LIMIT_WINDOW_MS = parseInt(env.RATE_LIMIT_WINDOW_MS);
     }
     
     // Get client IP from Cloudflare header
