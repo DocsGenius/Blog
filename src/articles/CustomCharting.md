@@ -1,6 +1,6 @@
 ---
 title: Custom Charts!
-subtitle: See how R. Rand created custom charts for future articles to use!
+subtitle: See how GeniusDocs created custom charts for future articles to use!
 authorId: roman-rand
 date: February 14th, 2026
 category: Newsletter
