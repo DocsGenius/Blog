@@ -10,7 +10,7 @@ import Home from './pages/Home'
 import ArticleList from './pages/ArticleList'
 import Article from './pages/Article'
 import CreateArticle from './pages/CreateArticle'
-import PreviewArticle from './pages/PreviewArticle'
+import PreviewDraft from './pages/PreviewDraft'
 import Contact from './pages/Contact'
 import Footer from './components/Footer'
 import CustomThemePopup from './components/CustomThemePopup'
@@ -125,7 +125,7 @@ function App() {
             <Route path="/articles" element={<ArticleList />} />
             <Route path="/article/:slug" element={<Article />} />
             <Route path="/create-article" element={<CreateArticle />} />
-            <Route path="/preview" element={<PreviewArticle />} />
+            <Route path="/preview" element={<PreviewDraft />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>

@@ -82,10 +82,10 @@ export default function Article() {
                     rel="noopener noreferrer"
                     title="View LinkedIn Profile"
                   >
-                    <img src={article.authorAvatar} alt={article.author} />
+                    <img src={article.authorAvatar} alt={article.author} onError={(e) => { e.target.src = '/authors/default.png'; }} />
                   </a>
                 ) : (
-                  <img src={article.authorAvatar} alt={article.author} />
+                  <img src={article.authorAvatar} alt={article.author} onError={(e) => { e.target.src = '/authors/default.png'; }} />
                 )}
               </div>
               <div className="author-info">

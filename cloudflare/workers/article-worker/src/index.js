@@ -4,7 +4,7 @@
 const CONFIG = {
   MAX_ARTICLE_SIZE: 1024 * 1024, // 1MB default
   RATE_LIMIT_WINDOW_MS: 60 * 1000, // 1 minute
-  RATE_LIMIT_MAX_REQUESTS: 4, // requests per window per IP
+  RATE_LIMIT_MAX_REQUESTS: 10, // requests per window per IP
 };
 
 // Rate limiter
@@ -18,6 +18,7 @@ function checkRateLimit(ip, env) {
   // Clean up old entries
   if (!rateLimits.has('cleanup') || now - rateLimits.get('cleanup') > 60000) {
     for (const [key, timestamps] of rateLimits.entries()) {
+      if (key === 'cleanup') continue; // Skip the cleanup marker
       const validTimestamps = timestamps.filter(t => now - t < windowMs);
       if (validTimestamps.length === 0) {
         rateLimits.delete(key);
@@ -91,7 +92,7 @@ export default {
         status: 204,
         headers: {
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+          'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
           'Access-Control-Max-Age': '86400',
         },
@@ -117,6 +118,36 @@ export default {
       }
       
       return handleArticleSubmission(request, env);
+    }
+    
+    // Admin endpoints (require API key)
+    if (path.startsWith('/api/admin/') && !validateApiKey(request, env)) {
+      return new Response(JSON.stringify({ 
+        error: 'Unauthorized - Admin access requires valid API key' 
+      }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+    }
+
+    // GET /api/admin/pending - List pending articles
+    if (request.method === 'GET' && path === '/api/admin/pending') {
+      return handleListPendingArticles(env);
+    }
+
+    // PUT /api/admin/approve/:slug - Approve an article
+    if (request.method === 'PUT' && path.startsWith('/api/admin/approve/')) {
+      const slug = path.replace('/api/admin/approve/', '');
+      return handleApproveArticle(slug, env);
+    }
+
+    // DELETE /api/admin/reject/:slug - Reject an article
+    if (request.method === 'DELETE' && path.startsWith('/api/admin/reject/')) {
+      const slug = path.replace('/api/admin/reject/', '');
+      return handleRejectArticle(slug, env);
     }
     
     // GET endpoints - no authentication required
@@ -208,8 +239,6 @@ async function handleArticleSubmission(request, env) {
       },
     });
 
-    // Don't update the live index yet - article needs approval
-
     return new Response(JSON.stringify({ 
       success: true, 
       slug,
@@ -236,35 +265,183 @@ async function handleArticleSubmission(request, env) {
   }
 }
 
-async function handleListArticles(env) {
+async function handleListPendingArticles(env) {
   try {
-    // Only return approved articles from live index
-    const cache = await env.ARTICLE_BUCKET.get('index/live-articles.json');
-    if (cache) {
-      const articles = JSON.parse(await cache.text());
-      return new Response(JSON.stringify(articles), {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Cache-Control': 'public, max-age=300',
-        },
-      });
-    }
-
-    // If no cache, list only approved articles
     const articles = [];
-    const listed = await env.ARTICLE_BUCKET.list({ prefix: 'articles/live/' });
+    const listed = await env.ARTICLE_BUCKET.list({ prefix: 'articles/pending/' });
     
     for (const object of listed.objects) {
       if (object.key.endsWith('.json')) {
         const articleObj = await env.ARTICLE_BUCKET.get(object.key);
         if (articleObj) {
           const article = JSON.parse(await articleObj.text());
+          articles.push(article);
+        }
+      }
+    }
+
+    // Sort by date (newest first)
+    articles.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    return new Response(JSON.stringify(articles), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-cache',
+      },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ 
+      error: 'Failed to list pending articles',
+      details: error.message 
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
+}
+
+async function handleApproveArticle(slug, env) {
+  try {
+    // Get the pending article
+    const pendingKey = `articles/pending/${slug}.json`;
+    const pendingObj = await env.ARTICLE_BUCKET.get(pendingKey);
+    
+    if (!pendingObj) {
+      return new Response(JSON.stringify({ error: 'Pending article not found' }), {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+    }
+
+    const article = JSON.parse(await pendingObj.text());
+    
+    // Update status
+    article.status = 'live';
+    article.approvedAt = new Date().toISOString();
+    
+    // Store in live folder
+    const liveKey = `articles/live/${slug}.json`;
+    await env.ARTICLE_BUCKET.put(liveKey, JSON.stringify(article, null, 2), {
+      httpMetadata: { contentType: 'application/json' },
+      customMetadata: {
+        title: article.title,
+        author: article.author,
+        category: article.category,
+        date: article.date,
+        status: 'live',
+        approvedAt: article.approvedAt,
+      },
+    });
+
+    // Delete from pending folder
+    await env.ARTICLE_BUCKET.delete(pendingKey);
+
+    // Update live index
+    await updateLiveArticleIndex(env, article);
+
+    // Update full index
+    await updateArticleIndex(env, article);
+
+    return new Response(JSON.stringify({ 
+      success: true, 
+      message: 'Article approved successfully' 
+    }), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ 
+      error: 'Failed to approve article',
+      details: error.message 
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
+}
+
+async function handleRejectArticle(slug, env) {
+  try {
+    const pendingKey = `articles/pending/${slug}.json`;
+    
+    // Check if article exists
+    const pendingObj = await env.ARTICLE_BUCKET.get(pendingKey);
+    
+    if (!pendingObj) {
+      return new Response(JSON.stringify({ error: 'Pending article not found' }), {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+    }
+
+    // Delete from pending folder
+    await env.ARTICLE_BUCKET.delete(pendingKey);
+
+    return new Response(JSON.stringify({ 
+      success: true, 
+      message: 'Article rejected and removed' 
+    }), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ 
+      error: 'Failed to reject article',
+      details: error.message 
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
+}
+
+async function handleListArticles(env) {
+  try {
+    console.log("Building articles list from live folder");
+    
+    // Always build articles list from live folder to ensure freshness
+    const articles = [];
+    const listed = await env.ARTICLE_BUCKET.list({ prefix: 'articles/live/' });
+    
+    console.log(`Found ${listed.objects.length} objects in live folder`);
+    
+    for (const object of listed.objects) {
+      console.log(`Processing object: ${object.key}`);
+      
+      if (object.key.endsWith('.json')) {
+        const articleObj = await env.ARTICLE_BUCKET.get(object.key);
+        if (articleObj) {
+          const article = JSON.parse(await articleObj.text());
+          console.log(`Loaded article: ${article.title}`);
+          
+          // Remove content for index
           const { content, ...metadata } = article;
           articles.push(metadata);
         }
       }
     }
+
+    console.log(`Built articles list with ${articles.length} articles`);
 
     // Sort by date (newest first)
     articles.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -282,6 +459,7 @@ async function handleListArticles(env) {
       },
     });
   } catch (error) {
+    console.error('Failed to list articles:', error);
     return new Response(JSON.stringify({ 
       error: 'Failed to list articles',
       details: error.message 
@@ -334,9 +512,42 @@ async function handleGetArticle(slug, env) {
   }
 }
 
+async function updateLiveArticleIndex(env, article) {
+  try {
+    // Get current live index
+    const indexObj = await env.ARTICLE_BUCKET.get('index/live-articles.json');
+    let articles = [];
+    
+    if (indexObj) {
+      articles = JSON.parse(await indexObj.text());
+    }
+
+    // Remove content for index
+    const { content, ...metadata } = article;
+    
+    // Check if article already exists in index
+    const existingIndex = articles.findIndex(a => a.slug === article.slug);
+    if (existingIndex !== -1) {
+      articles[existingIndex] = metadata;
+    } else {
+      articles.push(metadata);
+    }
+
+    // Sort by date (newest first)
+    articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Update index
+    await env.ARTICLE_BUCKET.put('index/live-articles.json', JSON.stringify(articles, null, 2), {
+      httpMetadata: { contentType: 'application/json' },
+    });
+  } catch (error) {
+    console.error('Failed to update live article index:', error);
+  }
+}
+
 async function updateArticleIndex(env, article) {
   try {
-    // Get current index
+    // Get current full index
     const indexObj = await env.ARTICLE_BUCKET.get('index/articles.json');
     let articles = [];
     

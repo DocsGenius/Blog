@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import html2canvas from 'html2canvas'
 
-export default function PreviewArticle() {
+export default function PreviewDraft() {
   const location = useLocation()
   let article = location.state?.articleData
 
   if (!article) {
-    const saved = localStorage.getItem('previewArticleData')
+    const saved = localStorage.getItem('previewDraftData')
     if (saved) {
       try {
         article = JSON.parse(saved)
@@ -23,7 +23,7 @@ export default function PreviewArticle() {
     }
   }
 
-  useDocumentTitle(`${article?.title || 'Preview Article'} - Genius Docs`)
+  useDocumentTitle(`${article?.title || 'Preview Draft'} - Genius Docs`)
 
   // Auto-download functionality
   useEffect(() => {

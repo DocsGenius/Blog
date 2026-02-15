@@ -135,7 +135,7 @@ export default function CreateArticle() {
     }
     
     try {
-      localStorage.setItem('previewArticleData', JSON.stringify(articleData))
+      localStorage.setItem('previewDraftData', JSON.stringify(articleData))
       // Open preview in new window which will auto-download
       window.open('/#/preview', '_blank')
     } catch (error) {
@@ -162,7 +162,7 @@ export default function CreateArticle() {
       slug: 'preview'
     }
     try {
-      localStorage.setItem('previewArticleData', JSON.stringify(articleData))
+      localStorage.setItem('previewDraftData', JSON.stringify(articleData))
       window.open('/#/preview', '_blank')
     } catch (error) {
       alert('Failed to save preview data. The article may be too large: ' + error.message)

@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { getAllArticles } from '../utils/articleUtils'
 import Features from "../components/Features";
-import ArticlePreview from '../components/ArticlePreview'
+import ArticleCard from '../components/ArticleCard'
 import SEO from '../components/SEO'
 import '../styles/home.css'
-import '../styles/article-preview.css'
+import '../styles/article-card.css'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     async function loadLatestArticles() {
       try {
-        const articles = await getAllArticles(3) // Only load first 3 articles
+        const articles = await getAllArticles(3) // Load first 3 articles
         setLatestArticles(articles)
       } catch (error) {
         console.error('Error loading latest articles:', error)
@@ -67,7 +67,7 @@ export default function Home() {
         ) : (
           <div className="articles-preview">
             {latestArticles.map((article) => (
-              <ArticlePreview key={article.id} article={article} showAuthor={true} />
+              <ArticleCard key={article.id} article={article} showAuthor={true} />
             ))}
           </div>
         )}
