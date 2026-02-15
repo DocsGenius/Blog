@@ -25,6 +25,7 @@ export default function CreateArticle() {
   const [date, setDate] = useState(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }))
   const [readingTime, setReadingTime] = useState('')
   const [chartDataYaml, setChartDataYaml] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useDocumentTitle('Create Article - Genius Docs')
 
@@ -165,6 +166,54 @@ export default function CreateArticle() {
       window.open('/#/preview', '_blank')
     } catch (error) {
       alert('Failed to save preview data. The article may be too large: ' + error.message)
+    }
+  }
+
+  const handleSubmitToWorker = async () => {
+    const processedContent = processChartPlaceholders(content);
+    
+    const articleData = {
+      title: title || 'Untitled Article',
+      subtitle: subtitle || 'No subtitle provided',
+      content: processedContent || 'No content written yet.',
+      author: author || 'Anonymous',
+      authorAvatar: '/authors/default.png',
+      authorBio: 'Author bio not provided',
+      authorLinkedin: authorLinkedin || null,
+      category: category || 'Uncategorized',
+      date: date || new Date().toLocaleDateString(),
+      readingTime: readingTime || '5 min read',
+      coverImage: coverImage || null,
+      tags: tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [],
+      chartData: chartData,
+    };
+
+    try {
+      setLoading(true);
+      
+      const response = await fetch('https://genius-docs-worker.k2tfbvzgpm.workers.dev/api/articles', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(articleData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(`Article submitted successfully! Slug: ${result.slug}`);
+        // Optionally clear the form
+        if (confirm('Clear the form?')) {
+          clearDraft();
+        }
+      } else {
+        alert(`Failed to submit: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Error submitting article: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -315,6 +364,13 @@ monthly-sales:
                 <button className="download-button" onClick={handleDownload}>Download as Image</button>
                 <button className="preview-button" onClick={handlePreview}>Preview Article</button>
                 <button className="save-button" onClick={saveData}>Save Draft</button>
+                <button 
+                  className="btn btn-primary" 
+                  onClick={handleSubmitToWorker}
+                  disabled={loading}
+                >
+                  {loading ? 'Submitting...' : 'Submit to Blog'}
+                </button>
               </div>
             </footer>
           </div>

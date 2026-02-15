@@ -9,7 +9,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "sitemap": "node scripts/generate-sitemap.js"
+    "sitemap": "node scripts/generate-sitemap.js",
+    "worker:dev": "cd cloudflare/workers/article-worker && npm run dev",
+    "worker:deploy": "cd cloudflare/workers/article-worker && npm run deploy",
+    "worker:login": "cd cloudflare/workers/article-worker && npm run login"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

@@ -20,7 +20,7 @@ chartData:
     - { browser: 'Other', share: 3 }
 ---
 
-Genius Docs is a tecnical writing platform started By Roman Rand.
+Genius Docs is a technical writing platform started By Roman Rand.
 Later on, Genius Docs plans on exclusively supporting small writers and collegiate students.
 
 ## #Status Update

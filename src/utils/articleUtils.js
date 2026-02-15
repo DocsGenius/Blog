@@ -6,6 +6,8 @@ import authorsData from '../data/authorsData.js'
 // Import all markdown files as raw text
 const markdownFiles = import.meta.glob('../articles/*.md', { query: '?raw', import: 'default' })
 
+const WORKER_URL = 'https://genius-docs-worker.k2tfbvzgpm.workers.dev';
+
 // Parse date string to timestamp
 function parseDate(dateStr) {
   // Handle format like "February 12th, 2026"
@@ -18,6 +20,47 @@ function parseDate(dateStr) {
 }
 
 export async function getAllArticles(limit = null, offset = 0) {
+  try {
+    const response = await fetch(`${WORKER_URL}/api/articles`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch articles');
+    }
+    
+    const articles = await response.json();
+    
+    // Apply limit and offset if specified
+    if (limit !== null) {
+      return articles.slice(offset, offset + limit);
+    }
+    
+    return articles;
+  } catch (error) {
+    console.error('Error loading articles from worker:', error);
+    // Fallback to local files if worker fails
+    return loadLocalArticles(limit, offset);
+  }
+}
+
+export async function getArticleBySlug(slug) {
+  try {
+    const response = await fetch(`${WORKER_URL}/api/articles/${slug}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error('Failed to fetch article');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error loading article from worker:', error);
+    // Fallback to local file
+    return loadLocalArticle(slug);
+  }
+}
+
+// Fallback functions (keep your existing local loading code)
+async function loadLocalArticles(limit = null, offset = 0) {
   const articles = []
   
   for (const path in markdownFiles) {
@@ -37,7 +80,7 @@ export async function getAllArticles(limit = null, offset = 0) {
   return sortedArticles
 }
 
-export async function getArticleBySlug(slug) {
+async function loadLocalArticle(slug) {
   const path = `../articles/${slug}.md`
   
   if (!markdownFiles[path]) {
