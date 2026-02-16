@@ -4,6 +4,35 @@ import { join } from 'path'
 const SITE_URL = 'https://geniusdocs.blog'
 const API_BASE_URL = 'https://genius-docs-worker.k2tfbvzgpm.workers.dev'
 
+// Parse human-readable dates and convert to ISO format
+function parseDateToISO(dateString) {
+  try {
+    // Handle various date formats from the API
+    // Examples: "February 15, 2026", "February 14th, 2026", "2026-02-15"
+    
+    // If it's already an ISO date, return as-is
+    if (dateString.match(/^\d{4}-\d{2}-\d{2}/)) {
+      return new Date(dateString).toISOString();
+    }
+    
+    // Remove ordinal suffixes (st, nd, rd, th) from day numbers
+    const cleanDateString = dateString.replace(/(\d+)(st|nd|rd|th)/, '$1');
+    
+    // Parse human-readable dates like "February 15, 2026"
+    const date = new Date(cleanDateString);
+    if (!isNaN(date.getTime())) {
+      return date.toISOString();
+    }
+    
+    // Fallback: return current date if parsing fails
+    console.warn(`Could not parse date: ${dateString}, using current date`);
+    return new Date().toISOString();
+  } catch (error) {
+    console.warn(`Error parsing date: ${dateString}, using current date`);
+    return new Date().toISOString();
+  }
+}
+
 // Fetch articles from Cloudflare Worker API
 async function loadArticlesFromAPI() {
   try {
@@ -50,7 +79,7 @@ async function generateSitemap() {
       url: `/article/${article.slug}`,
       priority: '0.8',
       changefreq: 'monthly',
-      lastmod: article.date || currentDate
+      lastmod: parseDateToISO(article.date)
     }))
     
     const allPages = [...staticPages, ...articlePages]
