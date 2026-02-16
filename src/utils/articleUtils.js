@@ -20,6 +20,8 @@ export async function getAllArticles(limit) {
     const articles = await response.json();
     console.log('Raw articles from API:', articles);
     
+    // API already sorts by date (newest first), so no need to sort again
+    
     // Apply limit if specified
     const limitedArticles = limit ? articles.slice(0, limit) : articles;
     

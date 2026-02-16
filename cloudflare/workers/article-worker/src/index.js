@@ -443,8 +443,19 @@ async function handleListArticles(env) {
 
     console.log(`Built articles list with ${articles.length} articles`);
 
-    // Sort by date (newest first)
-    articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Debug: log all dates before sorting
+    articles.forEach(article => {
+      console.log(`Article: ${article.title}, Raw date: "${article.date}", Parsed: ${parseArticleDate(article.date)}`);
+    });
+
+    // Sort by date (newest first) using robust date parsing
+    articles.sort((a, b) => parseArticleDate(b.date) - parseArticleDate(a.date));
+
+    // Debug: log dates after sorting
+    console.log('After sorting:');
+    articles.forEach(article => {
+      console.log(`Article: ${article.title}, Date: ${article.date}`);
+    });
 
     // Cache the live index
     await env.ARTICLE_BUCKET.put('index/live-articles.json', JSON.stringify(articles, null, 2), {
@@ -533,8 +544,8 @@ async function updateLiveArticleIndex(env, article) {
       articles.push(metadata);
     }
 
-    // Sort by date (newest first)
-    articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Sort by date (newest first) using robust date parsing
+    articles.sort((a, b) => parseArticleDate(b.date) - parseArticleDate(a.date));
 
     // Update index
     await env.ARTICLE_BUCKET.put('index/live-articles.json', JSON.stringify(articles, null, 2), {
@@ -566,8 +577,8 @@ async function updateArticleIndex(env, article) {
       articles.push(metadata);
     }
 
-    // Sort by date (newest first)
-    articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Sort by date (newest first) using robust date parsing
+    articles.sort((a, b) => parseArticleDate(b.date) - parseArticleDate(a.date));
 
     // Update index
     await env.ARTICLE_BUCKET.put('index/articles.json', JSON.stringify(articles, null, 2), {
@@ -579,9 +590,32 @@ async function updateArticleIndex(env, article) {
   }
 }
 
-function generateSlug(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
+function parseArticleDate(dateString) {
+  // Handle different date formats
+  // Remove ordinal suffixes (st, nd, rd, th)
+  const normalizedDate = dateString.replace(/(\d+)(st|nd|rd|th)/, '$1');
+  
+  // Try to parse as standard date string
+  const parsed = new Date(normalizedDate);
+  
+  // If parsing failed, try alternative formats
+  if (isNaN(parsed.getTime())) {
+    // Try MM/DD/YYYY format if it's in a different format
+    const alternativeFormats = [
+      dateString.replace(/(\w+) (\d+), (\d+)/, '$2 $1 $3'), // DD Month YYYY
+      dateString.replace(/(\w+) (\d+)(?:st|nd|rd|th)?, (\d+)/, '$1 $2, $3'), // Month DD, YYYY
+    ];
+    
+    for (const format of alternativeFormats) {
+      const altParsed = new Date(format);
+      if (!isNaN(altParsed.getTime())) {
+        return altParsed;
+      }
+    }
+    
+    console.warn(`Could not parse date: ${dateString}`);
+    return new Date(0); // Return epoch if parsing fails
+  }
+  
+  return parsed;
 }
