@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { getArticleBySlug } from '../utils/articleUtils'
+import { getArticleBySlug, getAllArticles } from '../utils/articleUtils'
 import ReactMarkdown from 'react-markdown'
 import { getMarkdownComponents } from '../components/MarkdownComponents'
+import ArticleCard from '../components/ArticleCard'
 import SEO from '../components/SEO'
 
 export default function Article() {
   const { slug } = useParams()
   const [article, setArticle] = useState(null)
+  const [recommendedArticles, setRecommendedArticles] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -15,6 +17,13 @@ export default function Article() {
       try {
         const loadedArticle = await getArticleBySlug(slug)
         setArticle(loadedArticle)
+        
+        // Load recommended articles
+        if (loadedArticle) {
+          const allArticles = await getAllArticles()
+          const filteredArticles = allArticles.filter(a => a.slug !== loadedArticle.slug).slice(0, 4)
+          setRecommendedArticles(filteredArticles)
+        }
       } catch (error) {
         console.error('Error loading article:', error)
       } finally {
@@ -151,6 +160,21 @@ export default function Article() {
           </div>
         </footer>
       </article>
+
+      {/* Recommended Next Articles Section */}
+      {recommendedArticles.length > 0 && (
+        <section className="recommended-articles">
+          <div className="recommended-header">
+            <h2>Recommended Next Articles</h2>
+            <p>Continue your learning journey with these related articles</p>
+          </div>
+          <div className="recommended-grid">
+            {recommendedArticles.map((recArticle) => (
+              <ArticleCard key={`recommended-${recArticle.id || recArticle.slug}`} article={recArticle} showAuthor={true} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
     </>
   )
