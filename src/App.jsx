@@ -113,7 +113,7 @@ function App() {
             <div className="nav-menu">
               <Link to="/" className="nav-link">Home</Link>
               <Link to="/articles" className="nav-link">Articles</Link>
-              <Link to="/create-article" className="nav-link">Create Article</Link>
+              <Link to="/create-article" className="nav-link">Create</Link>
               <Link to="/contact" className="nav-link">Contact</Link>
             </div>
           </nav>
