@@ -1,44 +1,43 @@
-import { readFileSync, readdirSync, writeFileSync } from 'fs'
+import { writeFileSync } from 'fs'
 import { join } from 'path'
-import yaml from 'js-yaml'
 
 const SITE_URL = 'https://geniusdocs.blog'
+const API_BASE_URL = 'https://genius-docs-worker.k2tfbvzgpm.workers.dev'
 
-// Node.js compatible article loading (not using Vite's import.meta.glob)
-function loadArticlesNodeJS() {
-  const articlesDir = join(process.cwd(), 'src', 'articles')
-  const articles = []
-  
+// Fetch articles from Cloudflare Worker API
+async function loadArticlesFromAPI() {
   try {
-    const files = readdirSync(articlesDir).filter(file => file.endsWith('.md'))
+    console.log('Fetching articles from:', `${API_BASE_URL}/api/articles`);
     
-    for (const file of files) {
-      const filePath = join(articlesDir, file)
-      const content = readFileSync(filePath, 'utf-8')
-      
-      // Parse frontmatter
-      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/)
-      if (frontmatterMatch) {
-        const frontmatter = yaml.load(frontmatterMatch[1])
-        const slug = file.replace('.md', '')
-        
-        articles.push({
-          ...frontmatter,
-          slug,
-          id: slug
-        })
-      }
+    const response = await fetch(`${API_BASE_URL}/api/articles`);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch articles: ${response.status} - ${response.statusText}`);
     }
+    
+    const articles = await response.json();
+    console.log(`Fetched ${articles.length} articles from API`);
+    
+    // Transform API response to match expected format
+    return articles.map(article => ({
+      slug: article.slug,
+      title: article.title,
+      subtitle: article.subtitle,
+      author: article.author,
+      date: article.date,
+      category: article.category,
+      tags: article.tags || [],
+      id: article.slug
+    }));
   } catch (error) {
-    console.error('Error loading articles:', error)
+    console.error('Error loading articles from API:', error);
+    throw error;
   }
-  
-  return articles
 }
 
-function generateSitemap() {
+async function generateSitemap() {
   try {
-    const articles = loadArticlesNodeJS()
+    const articles = await loadArticlesFromAPI()
     const currentDate = new Date().toISOString()
     
     const staticPages = [
@@ -77,4 +76,4 @@ ${allPages.map(page => `  <url>
   }
 }
 
-generateSitemap()
+await generateSitemap()

@@ -2,30 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://geniusdocs.blog/</loc>
-    <lastmod>2026-02-14T07:57:39.984Z</lastmod>
+    <lastmod>2026-02-16T01:37:30.748Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://geniusdocs.blog/articles</loc>
-    <lastmod>2026-02-14T07:57:39.984Z</lastmod>
+    <lastmod>2026-02-16T01:37:30.748Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://geniusdocs.blog/contact</loc>
-    <lastmod>2026-02-14T07:57:39.984Z</lastmod>
+    <lastmod>2026-02-16T01:37:30.748Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://geniusdocs.blog/article/HelloGenius</loc>
+    <loc>https://geniusdocs.blog/article/building-the-genius-docs-zero-cost-infrastructure</loc>
+    <lastmod>February 15, 2026</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://geniusdocs.blog/article/custom-charts</loc>
+    <lastmod>February 14th, 2026</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://geniusdocs.blog/article/hello-genius</loc>
     <lastmod>February 11th, 2026</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://geniusdocs.blog/article/SpacedRepetitionForProgramming</loc>
+    <loc>https://geniusdocs.blog/article/spaced-repetition-for-programming</loc>
     <lastmod>February 12th, 2026</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
