@@ -1,7 +1,4 @@
 # Environment variables
-.env
-.env.local
-
 # Logs
 logs
 *.log
@@ -29,3 +26,4 @@ dist-ssr
 
 # Cloudflare
 cloudflare/workers/article-worker/.dev.vars
+.env
